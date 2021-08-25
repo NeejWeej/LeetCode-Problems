@@ -15,12 +15,13 @@ class Solution:
         visited = set()
         while stack:
             curr = stack.pop()
-            if curr in visited:
+            if curr.val in visited:
                 continue
-            visited.add(curr)
+            visited.add(curr.val)
             clones[curr].val = curr.val
             for neighbor in curr.neighbors:
                 clones[curr].neighbors.append(clones[neighbor])
-                stack.append(neighbor)
+                if neighbor.val not in visited:
+                    stack.append(neighbor)
         return clones.get(node)
         
