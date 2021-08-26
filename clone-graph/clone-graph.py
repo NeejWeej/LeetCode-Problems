@@ -8,19 +8,19 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
-        if not node:
-            return None
+        if not node: return None
         clones = collections.defaultdict(lambda : Node())
         stack = [node]
-        visited = set()
+        visited = set([node.val])
         while stack:
             curr = stack.pop()
-            visited.add(curr.val)
-            clones[curr].val = curr.val
+            cVal = curr.val
+            clones[cVal].val = cVal
             for neighbor in curr.neighbors:
-                clones[curr].neighbors.append(clones[neighbor])
-                if neighbor.val not in visited:
+                nVal = neighbor.val
+                clones[cVal].neighbors.append(clones[nVal])
+                if nVal not in visited:
                     stack.append(neighbor)
-                    visited.add(neighbor.val)
-        return clones.get(node)
+                    visited.add(nVal)
+        return clones.get(node.val)
         
