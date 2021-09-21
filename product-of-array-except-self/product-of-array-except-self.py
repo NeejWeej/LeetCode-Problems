@@ -1,14 +1,60 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         n = len(nums)
-        answer = [1]*n
-        for idx, val in enumerate(nums[1:],1):
-            #store product of all values to the left of that number
-            answer[idx] = answer[idx-1]*nums[idx-1]
-        right_product = 1
-        for i in range(n-1,-1,-1):
-            answer[i] *= right_product
-            right_product *= nums[i]
-        return answer
+        ans = [1] * n
+        left = 1
+        right = 1
+        for i, val in enumerate(nums):
+            ans[i] *= left
+            left *= val
+        
+        for i in reversed(range(n)):
+            ans[i] *= right
+            right *= nums[i]
+        return ans
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        # n = len(nums)
+        # left_product = 1
+        # right_product = 1
+        # answer = [1]*n
+        # for i, val in enumerate(nums):
+        #     answer[i] *= left_product
+        #     answer[-1-i] *= right_product
+        #     right_product *= nums[-1-i]
+        #     left_product *= val
+        # return answer
         
         
