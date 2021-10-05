@@ -17,8 +17,8 @@ class LRUCache:
             self.dict[key] = value
             return
         else:
-            if len(self.dict) >= self.size:
-                k = next(iter(self.dict))
+            if len(self.dict) == self.size:
+                k = next(iter(self.dict.keys()))
                 del self.dict[k]
             self.dict[key] = value
             return
