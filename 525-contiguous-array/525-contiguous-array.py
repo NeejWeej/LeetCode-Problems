@@ -4,10 +4,7 @@ class Solution:
         count = 0
         best_len = 0
         for idx, val in enumerate(nums):
-            if val == 1:
-                count += 1
-            else:
-                count -= 1
+            count += (val * -2) + 1
             if count not in counts:
                 counts[count] = idx
             else:
