@@ -1,6 +1,6 @@
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
-        counts = {}
+        counts = {0:-1}
         count = 0
         best_len = 0
         for idx, val in enumerate(nums):
@@ -8,9 +8,7 @@ class Solution:
                 count += 1
             else:
                 count -= 1
-            if count == 0:
-                best_len = idx + 1
-            elif count not in counts:
+            if count not in counts:
                 counts[count] = idx
             else:
                 best_len = max(best_len, idx - counts.get(count))
