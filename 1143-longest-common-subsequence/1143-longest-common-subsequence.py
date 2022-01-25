@@ -5,7 +5,6 @@ class Solution:
         if t1 < t2:
             text1, text2, t1, t2 = text2, text1, t2, t1
         
-        dp = [ [0 for _ in range(t2 + 1)] for _ in range(t1 + 1)]
         last_row = [ 0 for _ in range(t2 + 1)]
         
         for i in range(1, t1 + 1):
