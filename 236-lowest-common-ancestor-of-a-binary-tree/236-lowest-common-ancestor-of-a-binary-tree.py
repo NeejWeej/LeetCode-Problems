@@ -19,46 +19,21 @@ class Solution:
         left = [False, False]
         if node.right:
             right = self.contains_p_q(node.right, p, q)
+            if right[0] and right[1]:
+                return right
         if node.left:
             left = self.contains_p_q(node.left, p, q)
+            if left[0] and left[1]:
+                return left
         ans[0] = ans[0] or right[0] or left[0]
         ans[1] = ans[1] or right[1] or left[1]
         if not(ans[0] and ans[1]):
             return [ans[0], ans[1], None]
         if not(right[0] and right[1]) and not(left[0] and left[1]):
             return [True, True, node]
-        if right[0] and right[1]:
-            return right
-        if left[0] and left[1]:
-            return left    
         
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         return self.contains_p_q(root, p, q)[-1]
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
 #         stack = []
 #         curr_node = root 
