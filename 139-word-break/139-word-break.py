@@ -4,8 +4,8 @@ class Solution:
         if s in words:
             return True
         dp = [False for _ in range(len(s) + 1)]
-        if s[0] in words:
-            dp[0] = True
+        # if s[0] in words:
+        #     dp[0] = True
             
         for end in range(1, len(s) + 1):
             if s[:end] in words:
