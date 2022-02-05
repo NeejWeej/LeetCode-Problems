@@ -7,12 +7,12 @@ class Solution:
             return True
         dp = [False for _ in range(len(s) + 1)]
         for end in range(1, len(s) + 1):
+            first_idx = max(1, end - max_word)
+            last_idx = min(end, end - min_word + 1)
             if s[:end] in words:
                 dp[end] = True
             else:
-                first_idx = max(1, end - max_word)
-                last_idx = min(end, 1 + max_word)
-                for start in range(1, end):
+                for start in range(first_idx, last_idx):
                     ending_word = s[start: end]
                     if ending_word not in words:
                         continue
