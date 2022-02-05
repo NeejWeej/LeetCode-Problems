@@ -1,16 +1,17 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         words = set(wordDict)
+        word_lens = [len(word) for word in words]
+        max_word, min_word = max(word_lens), min(word_lens)
         if s in words:
             return True
         dp = [False for _ in range(len(s) + 1)]
-        # if s[0] in words:
-        #     dp[0] = True
-            
         for end in range(1, len(s) + 1):
             if s[:end] in words:
                 dp[end] = True
             else:
+                first_idx = max(1, end - max_word)
+                last_idx = min(end, 1 + max_word)
                 for start in range(1, end):
                     ending_word = s[start: end]
                     if ending_word not in words:
