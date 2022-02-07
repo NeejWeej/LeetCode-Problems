@@ -7,7 +7,9 @@
 class BSTIterator:
 
     def __init__(self, root: Optional[TreeNode]):
-        self.arr = self.get_sorted(root)
+        self.arr = []
+        self.new_sorted_arr(root, self.arr)
+        # self.arr = self.get_sorted(root)
         self.len = len(self.arr)
         self.idx = 0
 
@@ -21,14 +23,22 @@ class BSTIterator:
             return False
         return True
     
-    def get_sorted(self, root):
-        left = []
+    def new_sorted_arr(self, root, arr):
         if root.left:
-            left = self.get_sorted(root.left)
-        right = []
+            self.new_sorted_arr(root.left, arr)
+        arr.append(root.val)
         if root.right:
-            right = self.get_sorted(root.right)
-        return left + [root.val] + right
+            self.new_sorted_arr(root.right, arr)
+        return
+        
+    # def get_sorted(self, root):
+    #     left = []
+    #     if root.left:
+    #         left = self.get_sorted(root.left)
+    #     right = []
+    #     if root.right:
+    #         right = self.get_sorted(root.right)
+    #     return left + [root.val] + right
         
 
 
