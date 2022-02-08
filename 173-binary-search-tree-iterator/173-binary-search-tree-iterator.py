@@ -24,21 +24,12 @@ class BSTIterator:
         return True
     
     def new_sorted_arr(self, root, arr):
-        if root.left:
-            self.new_sorted_arr(root.left, arr)
+        if not root:
+            return
+        self.new_sorted_arr(root.left, arr)
         arr.append(root.val)
-        if root.right:
-            self.new_sorted_arr(root.right, arr)
+        self.new_sorted_arr(root.right, arr)
         return
-        
-    # def get_sorted(self, root):
-    #     left = []
-    #     if root.left:
-    #         left = self.get_sorted(root.left)
-    #     right = []
-    #     if root.right:
-    #         right = self.get_sorted(root.right)
-    #     return left + [root.val] + right
         
 
 
