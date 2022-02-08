@@ -16,7 +16,7 @@ class Solution:
         cannot = 1
         can = cannot
         while True:
-            can *= 2
+            can = can << 1
             if self.can_complete(piles, h, can):
                 break
             cannot = can
