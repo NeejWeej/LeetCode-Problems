@@ -1,7 +1,5 @@
 class Solution:
     def validPalindrome(self, s: str) -> bool:
-        if s == s[::-1]:
-            return True
         start = 0
         end = len(s) - 1
         while True:
