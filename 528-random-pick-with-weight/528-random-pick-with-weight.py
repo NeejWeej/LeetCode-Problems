@@ -11,7 +11,7 @@ class Solution:
         in_prefix = random.randrange(1, self.tot + 1)
         start = 0
         end = len(self.prefix_sum)
-        while start < end:
+        while start + 1 < end:
             mid = start + (end - start) // 2
             if in_prefix == self.prefix_sum[mid]:
                 return mid
@@ -23,7 +23,7 @@ class Solution:
         if start == end:
             return start
         if start + 1 == end:
-            if in_prefix == self.prefix_sum[start]:
+            if in_prefix <= self.prefix_sum[start]:
                 return start
             return end
         
