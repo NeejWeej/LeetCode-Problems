@@ -19,7 +19,13 @@ class Solution:
                 end = mid
             elif in_prefix > self.prefix_sum[mid]:
                 start = mid + 1
-        return start
+        # return start
+        if start == end:
+            return start
+        if start + 1 == end:
+            if in_prefix == self.prefix_sum[start]:
+                return start
+            return end
         
         
             
