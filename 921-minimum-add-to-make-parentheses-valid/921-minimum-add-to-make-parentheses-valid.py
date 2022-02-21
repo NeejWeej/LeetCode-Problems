@@ -9,5 +9,5 @@ class Solution:
                 offset -= 1
             if offset == -1:
                 ans += 1
-                offset += 1
+                offset = 0
         return ans + offset
