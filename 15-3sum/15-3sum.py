@@ -13,6 +13,7 @@ class Solution(object):
                 if triplet_val == 0:
                     ans.add((val, nums[start], nums[end]))
                     end -= 1
+                    start += 1
                 elif triplet_val < 0:
                     start += 1
                 elif triplet_val > 0:
