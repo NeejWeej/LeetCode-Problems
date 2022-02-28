@@ -13,12 +13,12 @@ class Solution(object):
             start = cur_idx + 1
             end = n - 1
             while start < end:
-                if nums[start] in nums_seen:
+                while nums[start] in nums_seen:
                     start += 1
-                    continue
-                if nums[end] in nums_seen:
+                while nums[end] in nums_seen:
                     end -= 1
-                    continue
+                if start >= end:
+                    break
                 triplet_val = nums[start] + nums[end] + val
                 if triplet_val == 0:
                     ans.add((val, nums[start], nums[end]))
