@@ -4,11 +4,21 @@ class Solution(object):
         nums.sort()
         cur_idx = 0
         ans = set()
+        nums_seen = set()
         while cur_idx < n:
             val = nums[cur_idx]
+            if val in nums_seen:
+                cur_idx += 1
+                continue
             start = cur_idx + 1
             end = n - 1
             while start < end:
+                if nums[start] in nums_seen:
+                    start += 1
+                    continue
+                if nums[end] in nums_seen:
+                    end -= 1
+                    continue
                 triplet_val = nums[start] + nums[end] + val
                 if triplet_val == 0:
                     ans.add((val, nums[start], nums[end]))
@@ -18,6 +28,7 @@ class Solution(object):
                     start += 1
                 elif triplet_val > 0:
                     end -= 1
+            nums_seen.add(val)
             cur_idx += 1
         return ans
         
