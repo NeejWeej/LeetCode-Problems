@@ -1,19 +1,17 @@
 class Solution:
     
-#     def valid(self, m, n, r, c):
-#         return 0 <= r and r < m and 0 <= c and c < n
-    
-    def dfs(self, board, next_idx, word, row, col, m, n):
+    def dfs(self, board, next_idx, word, row, col, m, n, seen):
         if next_idx == len(word):
             return True
         
-        board[row][col] = '*'
+        seen.add((row, col))
         
         for n_r, n_c in ((row, 1 + col), (row, col - 1), (row + 1, col), (row - 1, col)):
-            if (0<=n_r<m and 0<=n_c<n) and word[next_idx] == board[n_r][n_c] \
-                and self.dfs(board, next_idx + 1, word, n_r, n_c, m, n):
+            if (0<=n_r<m and 0<=n_c<n) and (n_r, n_c) not in seen \
+                and word[next_idx] == board[n_r][n_c] \
+                and self.dfs(board, next_idx + 1, word, n_r, n_c, m, n, seen):
                     return True
-        board[row][col] = word[next_idx - 1]
+        seen.remove((row,col))
         return False
                 
     def exist(self, board: List[List[str]], word: str) -> bool:
@@ -22,7 +20,7 @@ class Solution:
         
         for r in range(m):
             for c in range(n):
-                if board[r][c] == word[0] and self.dfs(board, 1, word, r, c, m, n):
+                if board[r][c] == word[0] and self.dfs(board, 1, word, r, c, m, n, set()):
                         return True
         return False
         
