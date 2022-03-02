@@ -1,7 +1,7 @@
 class Solution:
     
-    def valid(self, m, n, r, c):
-        return 0 <= r and r < m and 0 <= c and c < n
+#     def valid(self, m, n, r, c):
+#         return 0 <= r and r < m and 0 <= c and c < n
     
     def dfs(self, board, next_idx, word, row, col, m, n):
         if next_idx == len(word):
@@ -10,7 +10,7 @@ class Solution:
         board[row][col] = '*'
         
         for n_r, n_c in ((row, 1 + col), (row, col - 1), (row + 1, col), (row - 1, col)):
-            if self.valid(m,n, n_r, n_c) and word[next_idx] == board[n_r][n_c] \
+            if (0<=n_r<m and 0<=n_c<n) and word[next_idx] == board[n_r][n_c] \
                 and self.dfs(board, next_idx + 1, word, n_r, n_c, m, n):
                     return True
         board[row][col] = word[next_idx - 1]
@@ -20,7 +20,6 @@ class Solution:
         m = len(board)
         n = len(board[0])
         
-        seen = {}
         for r in range(m):
             for c in range(n):
                 if board[r][c] == word[0] and self.dfs(board, 1, word, r, c, m, n):
