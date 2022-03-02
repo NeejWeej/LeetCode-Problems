@@ -20,18 +20,38 @@ class Solution:
         return False
                 
     def exist(self, board: List[List[str]], word: str) -> bool:
-        m = len(board)
-        n = len(board[0])
-        
-        direc = [(0,1), (0,-1), (1,0), (-1, 0)]
-        
-        seen = {}
-        for r in range(m):
-            for c in range(n):
-                if board[r][c] == word[0]:
-                    if self.dfs(board, 1, word, r, c, direc, seen):
-                        return True
+        g = board
+        R, C = len(g), len(g[0])
+
+        def spread(i, j, w):
+            if not w:
+                return True
+            original, g[i][j] = g[i][j], '-'
+            spreaded = False
+            for x, y in ((i-1, j), (i+1, j), (i, j-1), (i, j+1)):
+                if (0<=x<R and 0<=y<C and w[0]==g[x][y]
+                        and spread(x, y, w[1:])):
+                    spreaded = True
+                    break
+            g[i][j] = original
+            return spreaded
+
+        for i in range(R):
+            for j in range(C):
+                if g[i][j] == word[0] and spread(i, j, word[1:]):
+                    return True
         return False
+#         m = len(board)
+#         n = len(board[0])
+        
+#         direc = [(0,1), (0,-1), (1,0), (-1, 0)]
+        
+#         seen = {}
+#         for r in range(m):
+#             for c in range(n):
+#                 if board[r][c] == word[0] and self.dfs(board, 1, word, r, c, direc, seen):
+#                         return True
+#         return False
         
         
         
