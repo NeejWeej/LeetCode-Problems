@@ -1,18 +1,16 @@
 class Solution:
-    from collections import deque
     import random
     def coinChange(self, coins: List[int], amount: int) -> int:
         if amount == 0:
             return 0
         seen = set()
-        q = deque([amount])
+        q = [amount]
         count = 0
         while q:
             count += 1
-            new_layer = deque([])
+            new_layer = []
             random.shuffle(coins)
-            for _ in range(len(q)):
-                cur = q.popleft()
+            for cur in q:
                 for coin in coins:
                     if cur - coin == 0:
                         return count
