@@ -6,27 +6,17 @@ class Solution:
     def dfs(self, board, next_idx, word, row, col, direc, seen):
         m = len(board)
         n = len(board[0])
-        
-        # tup = (next_idx, row, col)
-        # if tup in seen:
-        #     return seen[tup]
-        
+                
         if next_idx == len(word):
-            # seen[tup] = True
             return True
         
         new_neighbs = [(x + row, y + col) for x,y in direc if self.valid(m, n, x+ row, y + col)]
         board[row][col] = '*'
         
         for n in new_neighbs:
-            if word[next_idx] == board[n[0]][n[1]]:
-                ans = self.dfs(board, next_idx + 1, word, n[0], n[1], direc, seen)
-                if ans:
-                    board[row][col] = word[next_idx - 1]
-                    # seen[tup] = True
+            if word[next_idx] == board[n[0]][n[1]] and self.dfs(board, next_idx + 1, word, n[0], n[1], direc, seen):
                     return True
         board[row][col] = word[next_idx - 1]
-        # seen[tup] = False
         return False
                 
     def exist(self, board: List[List[str]], word: str) -> bool:
