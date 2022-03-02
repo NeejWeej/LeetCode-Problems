@@ -3,55 +3,29 @@ class Solution:
     def valid(self, m, n, r, c):
         return 0 <= r and r < m and 0 <= c and c < n
     
-    def dfs(self, board, next_idx, word, row, col, direc, seen):
-        m = len(board)
-        n = len(board[0])
-                
+    def dfs(self, board, next_idx, word, row, col, m, n):
         if next_idx == len(word):
             return True
         
-        new_neighbs = [(x + row, y + col) for x,y in direc if self.valid(m, n, x+ row, y + col)]
         board[row][col] = '*'
         
-        for n in new_neighbs:
-            if word[next_idx] == board[n[0]][n[1]] and self.dfs(board, next_idx + 1, word, n[0], n[1], direc, seen):
+        for n_r, n_c in ((row, 1 + col), (row, col - 1), (row + 1, col), (row - 1, col)):
+            if self.valid(m,n, n_r, n_c) and word[next_idx] == board[n_r][n_c] \
+                and self.dfs(board, next_idx + 1, word, n_r, n_c, m, n):
                     return True
         board[row][col] = word[next_idx - 1]
         return False
                 
     def exist(self, board: List[List[str]], word: str) -> bool:
-        g = board
-        R, C = len(g), len(g[0])
-
-        def spread(i, j, w):
-            if not w:
-                return True
-            original, g[i][j] = g[i][j], '-'
-            spreaded = False
-            for x, y in ((i-1, j), (i+1, j), (i, j-1), (i, j+1)):
-                if (0<=x<R and 0<=y<C and w[0]==g[x][y]
-                        and spread(x, y, w[1:])):
-                    spreaded = True
-                    break
-            g[i][j] = original
-            return spreaded
-
-        for i in range(R):
-            for j in range(C):
-                if g[i][j] == word[0] and spread(i, j, word[1:]):
-                    return True
+        m = len(board)
+        n = len(board[0])
+        
+        seen = {}
+        for r in range(m):
+            for c in range(n):
+                if board[r][c] == word[0] and self.dfs(board, 1, word, r, c, m, n):
+                        return True
         return False
-#         m = len(board)
-#         n = len(board[0])
-        
-#         direc = [(0,1), (0,-1), (1,0), (-1, 0)]
-        
-#         seen = {}
-#         for r in range(m):
-#             for c in range(n):
-#                 if board[r][c] == word[0] and self.dfs(board, 1, word, r, c, direc, seen):
-#                         return True
-#         return False
         
         
         
