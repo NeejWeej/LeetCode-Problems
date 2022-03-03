@@ -9,52 +9,71 @@ class Solution:
     def __init__(self):
         self.ans = None
         
-    def contains_p_q(self, node, p, q):
-        ans = [False, False]
-        if node.val == p.val:
-            ans[0] = True
-        elif node.val == q.val:
-            ans[1] = True
-        right = [False, False]
-        left = [False, False]
-        if node.right:
-            right = self.contains_p_q(node.right, p, q)
-            if right[0] and right[1]:
-                return right
-        if node.left:
-            left = self.contains_p_q(node.left, p, q)
-            if left[0] and left[1]:
-                return left
-        ans[0] = ans[0] or right[0] or left[0]
-        ans[1] = ans[1] or right[1] or left[1]
-        if not(ans[0] and ans[1]):
-            return [ans[0], ans[1], None]
-        if not(right[0] and right[1]) and not(left[0] and left[1]):
-            return [True, True, node]
+    # def contains_p_q(self, node, p, q):
+    #     ans = [False, False]
+    #     if node.val == p.val:
+    #         ans[0] = True
+    #     elif node.val == q.val:
+    #         ans[1] = True
+    #     right = [False, False]
+    #     left = [False, False]
+    #     if node.right:
+    #         right = self.contains_p_q(node.right, p, q)
+    #         if right[0] and right[1]:
+    #             return right
+    #     if node.left:
+    #         left = self.contains_p_q(node.left, p, q)
+    #         if left[0] and left[1]:
+    #             return left
+    #     ans[0] = ans[0] or right[0] or left[0]
+    #     ans[1] = ans[1] or right[1] or left[1]
+    #     if not(ans[0] and ans[1]):
+    #         return [ans[0], ans[1], None]
+    #     if not(right[0] and right[1]) and not(left[0] and left[1]):
+    #         return [True, True, node]
         
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        return self.contains_p_q(root, p, q)[-1]
+        cur_path = [[root, 0]]
+        stack = []
         
-#         stack = []
-#         curr_node = root 
-#         parents = {root: None}
-#         while p not in parents or q not in parents:
-#             if curr_node.right:
-#                 parents[curr_node.right] = curr_node
-#                 stack.append(curr_node.right)
-#             if curr_node.left:
-#                 parents[curr_node.left] = curr_node
-#                 stack.append(curr_node.left)
-#             curr_node = stack.pop()
-#         ancestors_p = {p}
-#         v = p
-#         while v:
-#             v = parents[v]
-#             ancestors_p.add(v)
-#         ans = q
-#         while ans not in ancestors_p:
-#             ans = parents[ans]
-#         return ans
+        p_path = []
+        q_path = {}
+        
+        while True:
+            node, children_visited = cur_path[-1][:]
+            if node.val == q.val:
+                q_path = {x.val:x for x,c_v in cur_path}
+                if len(q_path) > 0 and len(p_path) > 0:
+                    break
+            if node.val == p.val:
+                p_path = [x for x, c_v in cur_path]
+                if len(q_path) > 0 and len(p_path) > 0:
+                    break
+                
+            if children_visited == 0:
+                if node.left:
+                    cur_path[-1][-1] = 1
+                    cur_path.append([node.left, 0])
+                    continue
+                elif node.right:
+                    cur_path[-1][-1] = 2
+                    cur_path.append([node.right, 0])
+                    continue
+                else:
+                    cur_path.pop()
+            elif children_visited == 1:
+                if node.right:
+                    cur_path[-1][-1] = 2
+                    cur_path.append([node.right, 0])
+                    continue
+                else:
+                    cur_path.pop()
+            else:
+                cur_path.pop()
+        
+        for node in reversed(p_path):
+            if node.val in q_path:
+                return node
             
                 
                 
