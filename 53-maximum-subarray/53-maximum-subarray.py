@@ -13,13 +13,13 @@ class Solution:
         while end < len(nums) - 1:
             end += 1
             cur += nums[end]
-            while start < end:
-                if nums[start] < 0:
-                    cur -= nums[start]
-                    start += 1
-                else:
-                    break
-            if cur <= 0:
+            # while start < end:
+            #     if nums[start] < 0:
+            #         cur -= nums[start]
+            #         start += 1
+            #     else:
+            #         break
+            if cur <= nums[end]:
                 start = end
                 cur = nums[end]
             best = max(cur, best)
