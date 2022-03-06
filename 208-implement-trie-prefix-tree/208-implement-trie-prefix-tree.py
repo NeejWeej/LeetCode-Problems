@@ -2,6 +2,7 @@ class Node:
     def __init__(self):
         self.children = {}
         self.is_word = False
+        self.val = ""
 
     def insert(self, word):
         if len(word) == 0:
