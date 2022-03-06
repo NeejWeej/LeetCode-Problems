@@ -19,12 +19,6 @@ class Solution:
             if counts.get(s[end], 0) > 0:
                 counts[s[end]] = counts.get(s[end]) - 1
                 tot_count -= 1
-            # counts[s[end]] = counts.get(s[end], 0) - 1
-            # valid = True
-            # for char, num in counts.items():
-            #     if cur_counter.get(char, 0) < num:
-            #         valid = False 
-            #         break
             if tot_count == 0:
                 # print(start, end, cur_counter)
                 while start < end:
