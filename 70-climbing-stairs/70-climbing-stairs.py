@@ -12,7 +12,9 @@ class Matrix:
         b = self.a * mat.b + self.b * mat.d
         c = self.c * mat.a + self.d * mat.c
         d = self.c * mat.b + self.d * mat.d
-        return Matrix([a,b, c, d])
+        
+        self.a, self.b, self.c, self.d = a, b, c, d
+        return
         
         
 class Solution:
@@ -29,8 +31,8 @@ class Solution:
         n = n - 2
         while n > 0:
             if n % 2 == 1:
-                cur_mat = cur_mat.mat_mult(pow_2_mat)
-            pow_2_mat = pow_2_mat.mat_mult(pow_2_mat)
+                cur_mat.mat_mult(pow_2_mat)
+            pow_2_mat.mat_mult(pow_2_mat)
             n = n >> 1
         last_2 = cur_mat.vec_mult(two, one)
         return last_2[0]
