@@ -2,14 +2,11 @@ class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         
         stor={}
-        for i in s:
-            if i not in stor:
-                stor[i] = -1
         start = 0
         best = 0
         
         for idx, ele in enumerate(s):
-            if stor[ele] < start:
+            if stor.get(ele, -1) < start:
                 stor[ele] = idx
                 continue
             if idx - start > best:
