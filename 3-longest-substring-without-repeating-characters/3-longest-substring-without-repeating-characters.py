@@ -5,7 +5,6 @@ class Solution:
         for i in s:
             if i not in stor:
                 stor[i] = -1
-        
         start = 0
         best = 0
         
