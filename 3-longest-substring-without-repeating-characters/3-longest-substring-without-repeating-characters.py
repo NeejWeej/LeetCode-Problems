@@ -1,19 +1,29 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        if len(s) == 0:
-            return 0
-        best = 1
-        seen = {s[0]: 1}
-        start = 0
-        end = 0
-        while end < len(s) - 1:
-            end += 1
-            seen[s[end]] = seen.get(s[end], 0) + 1
-            if len(seen) == end - start + 1:
-                best += 1
+        
+        stor={}
+        lis=[]
+        
+        start=0
+        for i in s:
+            if i not in stor:
+                stor[i]=-1
+                
+        lis.append(0)
+        for idx, ele in enumerate(s):
+            if idx==0:
+                lis[-1]+=1
+                stor[ele]=0
+                continue
+            if stor[ele]< start:
+                stor[ele]=idx
+                lis[-1]+=1
             else:
-                seen[s[start]] = seen.get(s[start]) - 1
-                if seen.get(s[start]) == 0:
-                    del seen[s[start]]
-                start += 1
-        return best
+                start=stor[ele]+1
+                stor[ele]=idx
+                lis.append(idx -(start)+1)
+        
+        lis.sort()
+        return lis[-1]
+                
+        
