@@ -17,6 +17,8 @@ class Solution:
                     best = idx - start
                 start = stor[ele] + 1
                 stor[ele] = idx
-        return max(best, len(s) - start)
+        if len(s) > best + start:
+            return len(s) - start
+        return best
                 
         
