@@ -11,7 +11,7 @@ class Solution:
         end = n - 1
         while start < end:
             mid = start + (end - start) // 2
-            print(start, mid, end)
+            # print(start, mid, end)
             if nums[mid] > nums[mid + 1]:
                 return nums[mid + 1]
             if nums[mid] > nums[start]:
