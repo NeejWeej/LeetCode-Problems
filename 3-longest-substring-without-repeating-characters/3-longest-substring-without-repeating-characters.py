@@ -1,7 +1,10 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         
-        stor={i:-1 for i in s}
+        stor={}
+        for i in s:
+            if i not in stor:
+                stor[i] = -1
         
         start = 0
         best = 0
