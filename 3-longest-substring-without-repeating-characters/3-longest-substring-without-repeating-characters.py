@@ -1,6 +1,5 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        
         stor={}
         start = 0
         best = 0
@@ -13,9 +12,6 @@ class Solution:
                     best = idx - start
                 start = stor[ele] + 1
                 stor[ele] = idx
-                
-        if len(s) > best + start:
-            best = len(s) - start
-        return best
+        return max(best, len(s) - start)
                 
         
