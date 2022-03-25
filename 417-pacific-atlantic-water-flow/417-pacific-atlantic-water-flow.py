@@ -13,7 +13,18 @@ class Solution:
                 if 0 <= dx + x < m and 0 <= dy + y < n:
                     neighs.append((dx + x, dy + y))
             return neighs
-            
+        
+        def dfs(shift, error_region):
+            while stack:
+                x, y, val = stack.pop()[:]
+                neighs = valid_neighs(x,y)
+                for nx, ny in neighs:
+                    nval = heights[nx][ny]
+                    if counts.get((nx, ny), 0) not in error_region:
+                        if nval >= val:
+                            stack.append((nx, ny, nval))
+                            counts[(nx,ny)] = counts.get((nx, ny), 0) + shift
+                            
         def set_row_col(row, v, shift):
             if row:
                 for i in range(n):
@@ -31,26 +42,28 @@ class Solution:
                     
         set_row_col(True, 0, 1)
         set_row_col(False, 0, 1)
-        while stack:
-            x, y, val = stack.pop()[:]
-            neighs = valid_neighs(x,y)
-            for nx, ny in neighs:
-                nval = heights[nx][ny]
-                if counts.get((nx, ny), 0) != 1:
-                    if nval >= val:
-                        stack.append((nx, ny, nval))
-                        counts[(nx,ny)] = 1
+        dfs(1, set([1]))
+        # while stack:
+        #     x, y, val = stack.pop()[:]
+        #     neighs = valid_neighs(x,y)
+        #     for nx, ny in neighs:
+        #         nval = heights[nx][ny]
+        #         if counts.get((nx, ny), 0) != 1:
+        #             if nval >= val:
+        #                 stack.append((nx, ny, nval))
+        #                 counts[(nx,ny)] = 1
         set_row_col(True, m - 1, 3)
         set_row_col(False, n - 1, 3)
-        while stack:
-            x,y, val = stack.pop()[:]
-            neighs = valid_neighs(x,y)
-            for nx, ny in neighs:
-                nval = heights[nx][ny]
-                if counts.get((nx, ny), 0) not in (3, 4):
-                    if nval >= val:
-                        stack.append((nx, ny, nval))
-                        counts[(nx,ny)] = counts.get((nx, ny), 0) + 3
+        dfs(3, set([3, 4]))
+        # while stack:
+        #     x,y, val = stack.pop()[:]
+        #     neighs = valid_neighs(x,y)
+        #     for nx, ny in neighs:
+        #         nval = heights[nx][ny]
+        #         if counts.get((nx, ny), 0) not in (3, 4):
+        #             if nval >= val:
+        #                 stack.append((nx, ny, nval))
+        #                 counts[(nx,ny)] = counts.get((nx, ny), 0) + 3
         ans = [[x,y] for (x,y), val in counts.items() if val == 4]
         return ans
         
