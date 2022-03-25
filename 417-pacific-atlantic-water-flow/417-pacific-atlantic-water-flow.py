@@ -14,13 +14,13 @@ class Solution:
                     neighs.append((dx + x, dy + y))
             return neighs
         
-        def dfs(shift, error_region):
+        def dfs(shift, already_seen_region):
             while stack:
                 x, y, val = stack.pop()[:]
                 neighs = valid_neighs(x,y)
                 for nx, ny in neighs:
                     nval = heights[nx][ny]
-                    if counts.get((nx, ny), 0) not in error_region:
+                    if counts.get((nx, ny), 0) not in already_seen_region:
                         if nval >= val:
                             stack.append((nx, ny, nval))
                             counts[(nx,ny)] = counts.get((nx, ny), 0) + shift
