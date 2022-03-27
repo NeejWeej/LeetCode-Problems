@@ -12,11 +12,13 @@ class Solution:
         stack = [(root, 1)]
         while stack:
             node, depth = stack.pop()[:]
-            if depth > ans:
-                ans = depth
             if node.right:
                 stack.append((node.right, depth + 1))
             if node.left:
                 stack.append((node.left, depth + 1))
+            
+            if not node.left and not node.right:
+                if depth > ans:
+                    ans = depth
         return ans
         
