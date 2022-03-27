@@ -19,13 +19,13 @@ class Solution:
                 i -= 1
             
             if stack:
-                last_s, last_e = stack.pop()[:]
+                last_s, last_e = stack[-1][:]
                 if (last_s <= s and s <= last_e) or (s <= last_s and last_s <= e):
+                    stack.pop()
                     new_s = min(s, last_s)
                     new_e = max(e, last_e)
                     stack.append([new_s, new_e])
                 else:
-                    stack.append([last_s, last_e])
                     stack.append([s, e])
             else:
                 stack.append([s, e])
