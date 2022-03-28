@@ -11,9 +11,7 @@ class Solution:
         best = [min(cur_vals), cur_max]
         while cur_heap:
             val, list_from = hq.heappop(cur_heap)[:]
-            if cur[list_from] == len(nums[list_from]) - 1:
-                continue
-            else:
+            if cur[list_from] != len(nums[list_from]) - 1:
                 cur[list_from] += 1
                 new_idx = cur[list_from]
                 new_val = nums[list_from][new_idx]
