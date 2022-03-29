@@ -3,7 +3,7 @@ class Solution:
     def minWindow(self, s: str, t: str) -> str:
         if len(t) == 1 and t in s:
             return t
-        best = None
+        best = [float('inf'), '']
         tCounts = Counter(t)
         cur_chars = {}
         cur_completed = 0
@@ -21,12 +21,10 @@ class Solution:
                 cur_chars[schar] = cur_chars.get(schar) - 1
                 start += 1
                 schar = s[start]
-            if not best:
-                best = s[start: idx + 1]
-            elif len(best) > len(s[start: idx + 1]):
-                best = s[start: idx + 1]
-        # print(tCounts, cur_chars, s[start:])
-        return best if best else ""
+            cur_str = s[start: idx + 1]
+            if idx + 1 - start < best[0]:
+                best = [idx + 1 - start, cur_str]
+        return best[1]
             
                 
                 
