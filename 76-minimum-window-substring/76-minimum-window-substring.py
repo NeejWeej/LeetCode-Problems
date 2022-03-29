@@ -1,10 +1,11 @@
-from collections import Counter
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
         if len(t) == 1 and t in s:
             return t
         best = [float('inf'), '']
-        tCounts = Counter(t)
+        tCounts = {}
+        for c in t:
+            tCounts[c] = tCounts.get(c, 0) + 1
         cur_chars = {}
         cur_completed = 0
         start = 0
