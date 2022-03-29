@@ -1,5 +1,5 @@
+from collections import Counter
 class Solution:
-    from collections import Counter
     def minWindow(self, s: str, t: str) -> str:
         if len(t) == 1 and t in s:
             return t
@@ -17,7 +17,7 @@ class Solution:
             if cur_completed != len(tCounts):
                 continue
             schar = s[start]
-            while cur_chars.get(schar) > tCounts.get(schar, 0):
+            while cur_chars.get(schar) > tCounts.get(schar, -1):
                 cur_chars[schar] = cur_chars.get(schar) - 1
                 start += 1
                 schar = s[start]
