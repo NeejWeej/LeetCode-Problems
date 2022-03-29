@@ -19,7 +19,25 @@ class Solution:
                 while end < h and sums[end] - left <= upper:
                     end += 1
                 count += end - start
-            sums[lo:h] = sorted(sums[lo:h])
+            
+            lsi = lo
+            rsi = mid
+            new = []
+            while lsi < mid or rsi < h:
+                if lsi == mid:
+                    new += sums[rsi: h]
+                    break
+                if rsi == h:
+                    new += sums[lsi: mid]
+                    break
+                if sums[lsi] <= sums[rsi]:
+                    new.append(sums[lsi])
+                    lsi += 1
+                else:
+                    new.append(sums[rsi])
+                    rsi += 1
+            sums[lo: h] = new
+            # sums[lo:h] = sorted(sums[lo:h])
             return count
         return merge(0, len(sums))
         
