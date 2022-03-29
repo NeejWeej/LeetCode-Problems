@@ -1,6 +1,8 @@
 class Solution:
     from collections import Counter
     def minWindow(self, s: str, t: str) -> str:
+        if len(t) == 1 and t in s:
+            return t
         best = None
         tCounts = Counter(t)
         cur_chars = {}
