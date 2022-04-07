@@ -12,8 +12,7 @@ class Solution:
                 nextt = cur.next
                 cur.next = prev
                 cur, prev = nextt, cur
-            nextt = cur.next
-            cur.next = prev
+            end.next = prev
             return [end, start]
         
         dummy = ListNode(0, head)
