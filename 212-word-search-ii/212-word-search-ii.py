@@ -33,7 +33,7 @@ class Solution:
         self.visited.add((r,c))
         if '+' in cur:
             new_word = "".join(path)
-            self.ans.append(new_word)
+            self.ans.add(new_word)
             self.remove(new_word, cur)
         if len(self.root) == 0:
             return
@@ -54,7 +54,7 @@ class Solution:
              
     def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
         self.makeTrie(words)
-        self.ans = []
+        self.ans = set()
         neighs = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         m = len(board)
         n = len(board[0])
@@ -68,5 +68,5 @@ class Solution:
                 self.search(r, c, node, [letter], neighs, board)
                 if len(self.root) == 0:
                     return self.ans
-        return self.ans
+        return list(self.ans)
                 
