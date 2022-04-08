@@ -1,33 +1,29 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        if len(t) == 1 and t in s:
-            return t
-        best = [float('inf'), '']
-        tCounts = {}
-        for c in t:
-            tCounts[c] = tCounts.get(c, 0) + 1
-        cur_chars = {}
-        cur_completed = 0
         start = 0
-        end = 0
-        for idx, c in enumerate(s):
-            cur_val = cur_chars.get(c, 0)
-            cur_chars[c] = cur_val + 1
-            if cur_val == tCounts.get(c, 0) - 1:
-                cur_completed += 1
-            if cur_completed != len(tCounts):
-                continue
-            schar = s[start]
-            while cur_chars.get(schar) > tCounts.get(schar, -1):
-                cur_chars[schar] = cur_chars.get(schar) - 1
-                start += 1
-                schar = s[start]
-            cur_str = s[start: idx + 1]
-            if idx + 1 - start < best[0]:
-                best = [idx + 1 - start, cur_str]
+        best = [float('inf'), '']
+        t_counts = {}
+        cur = {}
+        for c in t:
+            t_counts[c] = t_counts.get(c, 0) + 1
+        need = len(t_counts)
+        for i, c in enumerate(s):
+            cur_c = cur.get(c, 0)
+            cur[c] = cur_c + 1
+            if cur_c == t_counts.get(c, 0) - 1:
+                need -= 1
+            if need == 0:
+                start_letter = s[start]
+                start_letter_count = cur.get(start_letter)
+                while start_letter_count > t_counts.get(start_letter, 0):
+                    cur[start_letter] = start_letter_count - 1
+                    start += 1
+                    start_letter = s[start]
+                    start_letter_count = cur.get(start_letter)
+                if i - start + 1 < best[0]:
+                    best = [i - start + 1, s[start: i + 1]]
         return best[1]
             
-                
                 
                 
             
