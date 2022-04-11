@@ -1,38 +1,31 @@
+from collections import defaultdict
 class TimeMap:
 
     def __init__(self):
-        self.keys = {}
+        self.keys = defaultdict(list)
 
     def set(self, key: str, value: str, timestamp: int) -> None:
-        key_tracker = self.keys.get(key, {})
-        
-        key_tracker[timestamp] = value
-        
-        times = key_tracker.get('TIMES', [])
-        times.append(timestamp)
-        key_tracker['TIMES'] = times
-        self.keys[key] = key_tracker
+        self.keys[key].append((timestamp, value))
 
     def get(self, key: str, timestamp: int) -> str:
-        if key not in self.keys:
+        times = self.keys.get(key)
+        if not times:
             return ""
-        key_vals = self.keys.get(key)
-        times = key_vals.get('TIMES')
         lo = 0
         hi = len(times) - 1
-        while lo < hi:
+        while lo + 1< hi:
             mid = lo + (hi - lo) // 2
             mid_t = times[mid]
-            if mid_t == timestamp:
-                return key_vals[timestamp]
-            elif timestamp < mid_t:
+            if mid_t[0] == timestamp:
+                return mid_t[1]
+            elif timestamp < mid_t[0]:
                 hi = mid - 1
             else:   
-                if times[mid + 1] > timestamp:
-                    return key_vals[times[mid]]
-                lo = mid + 1
-        if times[lo] <= timestamp:
-            return key_vals[times[lo]]
+                lo = mid
+        if times[hi][0] <= timestamp:
+            return times[hi][1]
+        if times[lo][0] <= timestamp:
+            return times[lo][1]
         return ""
             
 
