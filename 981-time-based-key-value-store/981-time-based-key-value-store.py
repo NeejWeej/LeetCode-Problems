@@ -20,7 +20,7 @@ class TimeMap:
         times = key_vals.get('TIMES')
         lo = 0
         hi = len(times) - 1
-        while lo + 1 < hi:
+        while lo < hi:
             mid = lo + (hi - lo) // 2
             mid_t = times[mid]
             if mid_t == timestamp:
@@ -28,9 +28,9 @@ class TimeMap:
             elif timestamp < mid_t:
                 hi = mid - 1
             else:   
-                lo = mid
-        if times[hi] <= timestamp:
-            return key_vals[times[hi]]
+                if times[mid + 1] > timestamp:
+                    return key_vals[times[mid]]
+                lo = mid + 1
         if times[lo] <= timestamp:
             return key_vals[times[lo]]
         return ""
