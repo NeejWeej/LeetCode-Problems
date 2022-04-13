@@ -9,12 +9,10 @@ class Solution:
             return start
         while start < end:
             mid = start + (end - start) // 2
-            if mid == n:
-                return mid
             mid_val = isBadVersion(mid)
-            next_v = isBadVersion(mid + 1)
-            if mid_val and not next_v:
-                return mid + 1
+            prev_v = isBadVersion(mid - 1)
+            if not prev_v and mid_val:
+                return mid 
             if not mid_val:
                 start = mid + 1
             elif mid_val:
