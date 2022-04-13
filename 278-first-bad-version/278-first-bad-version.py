@@ -7,14 +7,14 @@ class Solution:
         end = n
         if isBadVersion(1):
             return start
-        while start < end:
+        while start < end - 1:
             mid = start + (end - start) // 2
             mid_val = isBadVersion(mid)
-            prev_v = isBadVersion(mid - 1)
-            if not prev_v and mid_val:
-                return mid 
+            # prev_v = isBadVersion(mid - 1)
             if not mid_val:
-                start = mid + 1
+                start = mid
             elif mid_val:
                 end = mid
-        return start
+        if isBadVersion(start):
+            return start
+        return end
