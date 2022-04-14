@@ -24,7 +24,6 @@ class Solution:
         stack = [root]
         path = []
         cur = root
-        found_p_q = False
         while stack:
             cur = stack.pop()
             path.append(cur)
@@ -36,31 +35,22 @@ class Solution:
                 stack.append(cur.right)
             if not cur.left and not cur.right:
                 path.pop()
-        if path[-1].val == p.val:
-            idx = len(path) - 1
-            if search(path[idx].left,q) or search(path[idx].right, q):
-                return path[idx]
-            idx -= 1
-            while idx >= 0:
-                if path[idx].left and path[idx].left.val != path[idx + 1].val:
-                    if search(path[idx].left, q):
-                        return path[idx]
-                elif search(path[idx].right, q):
+            # print([x.val for x in stack], [x.val for x in path])
+        node = q
+        if path[-1].val == q.val:
+            node = p
+        idx = len(path) - 1
+        if search(path[idx].left, node) or search(path[idx].right, node):
+            return path[idx]
+        idx -= 1
+        while idx >= 0:
+            if path[idx].left and path[idx].left.val != path[idx + 1].val:
+                if search(path[idx].left, node):
                     return path[idx]
-                idx -= 1
-        elif path[-1].val == q.val:
-            idx = len(path) - 1
-            if search(path[idx].left, p) or search(path[idx].right, p):
-                return path[idx]
-            idx -= 1
-            # print([x.val for x in path], idx)
-            while idx >= 0:
-                if path[idx].left and path[idx].left.val != path[idx + 1].val:
-                    if search(path[idx].left, p):
-                        return path[idx]
-                elif search(path[idx].right, p):
+            elif path[idx].right and path[idx].right.val != path[idx + 1].val:
+                if search(path[idx].right, node):
                     return path[idx]
-                idx -= 1            
+            idx -= 1         
         
                     
         
