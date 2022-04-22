@@ -17,7 +17,6 @@ class Solution:
         # self.longest_path = 0
         # self.getHeight(root)
         # return self.longest_path
-    
         lp = 0
         stack = [[root, 0]]
         h = {}
