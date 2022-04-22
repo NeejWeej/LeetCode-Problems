@@ -4,16 +4,20 @@ class Solution:
         rows = len(grid)
         cols = len(grid[0])
         neighs = [(0,1), (1, 0), (-1, 0), (0, -1)]
+        fresh = set([])
         for r in range(rows):
             for c in range(cols):
                 if grid[r][c] == 2:
                     new_rotting.append((r,c))
-        minutes = -1
-        while new_rotting:
+                elif grid[r][c] == 1:
+                    fresh.add((r,c))
+        minutes = 0
+        while new_rotting and len(fresh) > 0:
             next_rotting = []
             for r, c in new_rotting:
                 for dx, dy in neighs:
                     if 0<=r+dx<rows and 0<=c+dy<cols and grid[r + dx][c + dy] == 1:
+                        fresh.discard((r + dx, c + dy))
                         grid[r + dx][c + dy] = 2
                         next_rotting.append((r + dx,c + dy))
             # print(new_rotting, next_rotting)
@@ -25,4 +29,4 @@ class Solution:
             for c in range(cols):
                 if grid[r][c] == 1:
                     return -1
-        return max(minutes, 0)
+        return minutes
