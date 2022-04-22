@@ -25,8 +25,6 @@ class Solution:
             #     break
             minutes += 1
             new_rotting = next_rotting
-        for r in range(rows):
-            for c in range(cols):
-                if grid[r][c] == 1:
-                    return -1
+        if len(fresh) > 0:
+            return -1
         return minutes
