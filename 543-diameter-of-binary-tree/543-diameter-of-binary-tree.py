@@ -5,23 +5,11 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def getHeight(self, root):
-        if not root:
-            return 0
-        left = self.getHeight(root.left)
-        right = self.getHeight(root.right)
-        if left + right > self.longest_path:
-            self.longest_path = left + right
-        return max(left, right) + 1
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        # self.longest_path = 0
-        # self.getHeight(root)
-        # return self.longest_path
         lp = 0
         stack = [[root, 0]]
         h = {}
         while stack:
-            # print([(x[0].val, x[1]) for x in stack])
             node, seen = stack[-1]
             if seen == 0:
                 stack[-1][1] = 1
