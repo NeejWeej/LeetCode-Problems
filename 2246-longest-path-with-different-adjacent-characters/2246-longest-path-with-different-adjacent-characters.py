@@ -15,13 +15,11 @@ class Solution:
                 start.append(n)
         h = {}
         while start:
-            # print(start, h, kids)
             next_layer = []
             for cur in start:
                 first_long = 0
                 second_long = 0
                 for kid in kids.get(cur, {}).get('k', []):
-                    # print(kid, cur)
                     height = h.get(kid, 0)
                     second_long = max(second_long, height)
                     if first_long < second_long:
@@ -35,6 +33,4 @@ class Solution:
                 if kids.get(p).get('c') == 0:
                     next_layer.append(p)
             start = next_layer
-            # print(start, h)
-        # print(h)
         return lp + 1
