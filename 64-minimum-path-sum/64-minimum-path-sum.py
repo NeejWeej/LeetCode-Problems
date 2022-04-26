@@ -13,7 +13,7 @@ class Solution:
             for c in range(n - 2, -1, -1):
                 cur = grid[r][c]
                 dp[r][c] = min(cur + dp[i][j]
-                              for i,j in zip([r+1, r],[c, c+1])
+                              for i,j in [(r + 1, c), (r, c+ 1)]
                               if i < m and j < n)
         return dp[0][0]
                 
