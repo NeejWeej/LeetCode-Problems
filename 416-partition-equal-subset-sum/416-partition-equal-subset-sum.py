@@ -15,7 +15,8 @@ class Solution:
                 # the remaining elemnts of nums
                 if s + el == target:
                     return True
-                next_sums.add(s+el)
+                if s + el < target:
+                    next_sums.add(s+el)
             possible_sums.update(next_sums)
         return False
                 
