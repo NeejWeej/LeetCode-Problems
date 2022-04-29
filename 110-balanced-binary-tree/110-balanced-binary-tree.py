@@ -11,14 +11,15 @@ class Solution:
         dummy = TreeNode()
         stack = [[dummy] + [0 for _ in range(5)],[root, 0, False, 0, 0]]
         while len(stack) > 1:
-            cur, kidsSeen, is_left, left, right = stack[-1]
+            cur, kidsSeen, is_left, left_height, right_height = stack[-1]
             if kidsSeen == 2:
-                if abs(left - right) > 1:
+                if abs(left_height - right_height) > 1:
                     return False
+                height = max(left_height, right_height) + 1
                 if is_left:
-                    stack[-2][3] = max(left, right) + 1
+                    stack[-2][3] = height
                 else:
-                    stack[-2][4] = max(left, right) + 1
+                    stack[-2][4] = height
                 stack.pop()
             elif kidsSeen == 0:
                 stack[-1][1] = 1
