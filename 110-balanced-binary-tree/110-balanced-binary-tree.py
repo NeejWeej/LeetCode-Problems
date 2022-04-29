@@ -6,15 +6,27 @@
 #         self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        self.ans = True
-        def height(node):
-            if not node or not self.ans:
-                return 0
-            left = height(node.left)
-            right = height(node.right)
-            if right - left > 1 or left - right > 1:
-                self.ans = False
-                return 0
-            return 1 + max(left, right)
-        height(root)
-        return self.ans
+        # self.ans = True
+        if not root:
+            return True
+        stack = [[root] + [0 for _ in range(5)],[root, 0, False, 0, 0]]
+        while len(stack) > 1:
+            # print([x[0].val for x in stack])
+            cur, kidsSeen, is_left, left, right = stack[-1]
+            if kidsSeen == 2:
+                if abs(left - right) > 1:
+                    return False
+                if is_left:
+                    stack[-2][3] = max(left, right) + 1
+                else:
+                    stack[-2][4] = max(left, right) + 1
+                stack.pop()
+            elif kidsSeen == 0:
+                stack[-1][1] = 1
+                if cur.left:
+                    stack.append([cur.left, 0, True, 0, 0])
+            elif kidsSeen == 1:
+                stack[-1][1] = 2
+                if cur.right:
+                    stack.append([cur.right, 0, False, 0, 0])
+        return True  
