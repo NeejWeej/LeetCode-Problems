@@ -13,9 +13,11 @@ class Solution:
         while len(stack) > 1:
             cur, kidsSeen, is_left, left_height, right_height = stack[-1]
             if kidsSeen == 2:
-                if abs(left_height - right_height) > 1:
+                if left_height < right_height:
+                    left_height, right_height = right_height, left_height
+                if left_height - right_height > 1:
                     return False
-                height = max(left_height, right_height) + 1
+                height = left_height + 1
                 if is_left:
                     stack[-2][3] = height
                 else:
