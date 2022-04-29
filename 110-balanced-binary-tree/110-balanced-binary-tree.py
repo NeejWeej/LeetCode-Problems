@@ -8,7 +8,8 @@ class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         if not root:
             return True
-        stack = [[root] + [0 for _ in range(5)],[root, 0, False, 0, 0]]
+        dummy = TreeNode()
+        stack = [[dummy] + [0 for _ in range(5)],[root, 0, False, 0, 0]]
         while len(stack) > 1:
             cur, kidsSeen, is_left, left, right = stack[-1]
             if kidsSeen == 2:
