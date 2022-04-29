@@ -5,28 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def is_balanced_and_depth(self, root: Optional[TreeNode]) -> (bool, int):
+        if root is None:
+            return True, 0
+        
+        balanced_left, depth_left = self.is_balanced_and_depth(root.left)
+        balanced_right, depth_right = self.is_balanced_and_depth(root.right)
+        
+        depth_difference = abs(depth_left - depth_right)
+        both_balanced = balanced_left and balanced_right and depth_difference <= 1
+        depth = max(depth_left, depth_right) + 1
+        return both_balanced, depth
+        
+    
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
-        # self.ans = True
-        if not root:
-            return True
-        stack = [[root] + [0 for _ in range(5)],[root, 0, False, 0, 0]]
-        while len(stack) > 1:
-            # print([x[0].val for x in stack])
-            cur, kidsSeen, is_left, left, right = stack[-1]
-            if kidsSeen == 2:
-                if abs(left - right) > 1:
-                    return False
-                if is_left:
-                    stack[-2][3] = max(left, right) + 1
-                else:
-                    stack[-2][4] = max(left, right) + 1
-                stack.pop()
-            elif kidsSeen == 0:
-                stack[-1][1] = 1
-                if cur.left:
-                    stack.append([cur.left, 0, True, 0, 0])
-            elif kidsSeen == 1:
-                stack[-1][1] = 2
-                if cur.right:
-                    stack.append([cur.right, 0, False, 0, 0])
-        return True  
+        is_balanced, _ = self.is_balanced_and_depth(root)
+        return is_balanced
