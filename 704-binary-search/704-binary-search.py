@@ -1,8 +1,6 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         n = len(nums)
-        if target < nums[0]:
-            return -1
         l = 0
         r = n - 1
         while l < r:
