@@ -10,15 +10,19 @@ class Solution:
         vals = {p.val:1, q.val:1}
         self.ans = None
         def lca(r):
-            if not r or self.ans:
+            if self.ans:
                 return 0
             mid = 1 if r.val in vals else 0
-            left = lca(r.left)
-            right = lca(r.right)
+            left = 0 if not r.left else lca(r.left)
+            right = 0 if not r.right else lca(r.right)
+            if mid < left:
+                mid, left = left, mid
+            if mid < right:
+                mid, right = right, mid
             if mid + left + right == 2:
                 self.ans = r
                 return 1
-            return max(mid, left, right)
+            return mid
         lca(root)
         return self.ans
             
