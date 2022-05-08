@@ -12,7 +12,7 @@ class Solution:
                 elif grid[r][c] == 1:
                     fresh.add((r,c))
         minutes = 0
-        while new_rotting and len(fresh) > 0:
+        while new_rotting and fresh:
             next_rotting = []
             for r, c in new_rotting:
                 for dx, dy in neighs:
@@ -20,9 +20,6 @@ class Solution:
                         fresh.discard((r + dx, c + dy))
                         grid[r + dx][c + dy] = 2
                         next_rotting.append((r + dx,c + dy))
-            # print(new_rotting, next_rotting)
-            # if not next_rotting:
-            #     break
             minutes += 1
             new_rotting = next_rotting
         if len(fresh) > 0:
