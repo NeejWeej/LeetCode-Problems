@@ -22,6 +22,6 @@ class Solution:
                         next_rotting.append((r + dx,c + dy))
             minutes += 1
             new_rotting = next_rotting
-        if len(fresh) > 0:
+        if fresh:
             return -1
         return minutes
