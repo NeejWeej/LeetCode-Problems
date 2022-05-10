@@ -10,10 +10,10 @@ class Solution:
                 if x not in visited:
                     dfs(g, x, visited, info)
             return info
-        graph = defaultdict(set)
+        graph = defaultdict(list)
         for a,b in connections:
-            graph[a].add(b)
-            graph[b].add(a)
+            graph[a].append(b)
+            graph[b].append(a)
         available = 0
         groups = []
         visited = set()
