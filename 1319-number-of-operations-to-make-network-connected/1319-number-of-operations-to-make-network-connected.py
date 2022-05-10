@@ -17,15 +17,15 @@ class Solution:
         available = 0
         groups = []
         visited = set()
+        extra = 0 
+        groups = 0
         for i in range(n):
             if i in visited:
                 continue
             new = i
+            groups += 1
             size, connect = dfs(graph, i, visited, [0, 0])
-            groups.append((size, connect // 2))
-        # print(groups)
-        extra = 0 
-        for a,b in groups:
-            extra += (b - a + 1)
-        diff = len(groups) - extra
-        return len(groups) - 1 if diff <= 1 else -1
+            connect //= 2
+            extra += (connect - size + 1)
+        diff = groups - extra
+        return groups - 1 if diff <= 1 else -1
