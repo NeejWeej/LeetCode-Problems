@@ -3,9 +3,13 @@ class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
         def get_parent(parents, start):
             # print('first '+start)
+            path = []
             while parents.get(start):
+                path.append(start)
                 start = parents[start]
                 # print(start)
+            for p in path:
+                parents[p] = start
             return start
         accs = {}
         acc_to_name = {}
