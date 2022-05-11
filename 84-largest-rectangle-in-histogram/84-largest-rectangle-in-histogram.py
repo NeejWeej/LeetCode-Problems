@@ -2,7 +2,7 @@ class Solution:
     from collections import defaultdict
     def largestRectangleArea(self, heights: List[int]) -> int:
         self.max = 0
-        self.cur_max = defaultdict(int)
+        self.cur_max = [0 for _ in range(len(heights))]
         def getMaxStartingLeft(height, stack, left):
             def leftShift(x, n, left):
                 return x if left else n - 1 - x
@@ -16,7 +16,7 @@ class Solution:
                     if not left:
                         new_area -= old_h
                     self.cur_max[new_idx] += new_area
-                    self.max = max(self.max, self.cur_max.get(new_idx))
+                    self.max = max(self.max, self.cur_max[new_idx])
                 stack.append((i, h))
         heights.append(-1) 
         getMaxStartingLeft(heights, [], True)
