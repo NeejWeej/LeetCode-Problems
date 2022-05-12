@@ -1,8 +1,8 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         m = len(matrix)
-        if m == 1:
-            return [x for x in matrix[0]]
+        # if m == 1:
+        #     return [x for x in matrix[0]]
         n = len(matrix[0])
         if n == 1:
             return [matrix[i][0] for i in range(m)]
