@@ -50,14 +50,9 @@ class Codec:
             return []
         new_mapping = {}
         parent_to_child = {}
-        # print(data)
         data = data.split('*')
-        # for x in data:
-        #     print(x, type(x))
         for i,x in enumerate(islice(data, 1, None)):
             val, left, right = x.split(',')
-            # print(type(x))
-            # print(val, left, right, i, 'dafuck')
             new_mapping[i] = TreeNode(int(val))
             parent_to_child[i] = {}
             if left != "":
