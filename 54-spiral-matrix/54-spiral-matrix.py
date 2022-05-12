@@ -1,44 +1,30 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        visited = set()
         m = len(matrix)
         if m == 1:
             return [x for x in matrix[0]]
         n = len(matrix[0])
         if n == 1:
             return [matrix[i][0] for i in range(m)]
-        ans = []
+        ans = [matrix[0][0]]
+        visited = set([(0,0)])
         # right, left, down, up
         r = c = 0
-        def oneD(r, c, change, row):
-            ans.append(matrix[r][c])
-            visited.add((r,c))
-            if row:
-                r += change
-            else:
-                c += change
-            return r,c
-
+        direc = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         while True:
-            while c < n and (r,c) not in visited:
-                r,c = oneD(r,c, 1, False)
-            c -= 1
-            r += 1
-            if r == m or (r, c) in visited: return ans
-            while r < m and (r, c) not in visited:
-                r,c = oneD(r,c, 1, True)
-            r -= 1
-            c -= 1
-            if c < 0 or (r, c) in visited: return ans
-            while c >= 0 and (r,c) not in visited:
-                r,c = oneD(r,c, -1, False)
-            c += 1
-            r -= 1
-            if r < 0 or (r, c) in visited: return ans
-            while r >= 0 and (r,c) not in visited:
-                r,c = oneD(r,c, -1, True)
-            r += 1
-            c += 1
-            if c == n or (r, c) in visited: return ans
+            for dx,dy in direc:
+                # print(r,c, visited)
+                tripped = False
+                r += dx
+                c += dy
+                while 0<=r<m and 0<=c<n and (r,c) not in visited:
+                    visited.add((r,c))
+                    ans.append(matrix[r][c])
+                    tripped = True
+                    r += dx
+                    c += dy
+                if not tripped: return ans
+                r -= dx
+                c -= dy
             
             
