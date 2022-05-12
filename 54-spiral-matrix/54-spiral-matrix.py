@@ -10,42 +10,35 @@ class Solution:
         ans = []
         # right, left, down, up
         r = c = 0
-        # def oneD(r, c, limit, visited, change, row):
-        #     if row:
-        #         while r 
+        def oneD(r, c, change, row):
+            ans.append(matrix[r][c])
+            visited.add((r,c))
+            if row:
+                r += change
+            else:
+                c += change
+            return r,c
+
         while True:
             while c < n and (r,c) not in visited:
-                ans.append(matrix[r][c])
-                visited.add((r,c))
-                c += 1
+                r,c = oneD(r,c, 1, False)
             c -= 1
             r += 1
-            if r == m or (r, c) in visited:
-                return ans
+            if r == m or (r, c) in visited: return ans
             while r < m and (r, c) not in visited:
-                ans.append(matrix[r][c])
-                visited.add((r,c))
-                r += 1 
+                r,c = oneD(r,c, 1, True)
             r -= 1
             c -= 1
-            if c < 0 or (r, c) in visited:
-                return ans
+            if c < 0 or (r, c) in visited: return ans
             while c >= 0 and (r,c) not in visited:
-                ans.append(matrix[r][c])
-                visited.add((r,c))
-                c -= 1
+                r,c = oneD(r,c, -1, False)
             c += 1
             r -= 1
-            if r < 0 or (r, c) in visited:
-                return ans
-            # print(r,c)
+            if r < 0 or (r, c) in visited: return ans
             while r >= 0 and (r,c) not in visited:
-                ans.append(matrix[r][c])
-                visited.add((r,c))
-                r -= 1
+                r,c = oneD(r,c, -1, True)
             r += 1
             c += 1
-            if c == n or (r, c) in visited:
-                return ans
+            if c == n or (r, c) in visited: return ans
             
             
