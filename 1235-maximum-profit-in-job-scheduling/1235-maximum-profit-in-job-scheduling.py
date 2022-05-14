@@ -7,8 +7,6 @@ class Solution:
         ]
         jobs.sort(key = lambda x: x[1])
         def binSearch(jobs, i, start):
-            if jobs[0][0] > start:
-                return 0
             s = 0
             e = i
             while s < e:
@@ -25,7 +23,7 @@ class Solution:
             start, end, profit = jobs[i]
             #first one that ends strictly after start
             e = binSearch(dp, i, start) - 1
-            compatible_best = dp[e][1] if e != -1 else 0 
+            compatible_best = dp[e][1] if e >= 0 else 0 
             if compatible_best + profit > dp[i - 1][1]:
                 dp[i] = [end, compatible_best + profit]
             else:
