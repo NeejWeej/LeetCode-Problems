@@ -7,6 +7,8 @@ class Solution:
         ]
         jobs.sort(key = lambda x: x[1])
         def binSearch(jobs, i, start):
+            if jobs[0][0] > start:
+                return 0
             s = 0
             e = i
             while s < e:
