@@ -62,12 +62,9 @@ class Codec:
         for i in range(len(data) - 1):
             node = new_mapping.get(i)
             left_idx = parent_to_child.get(i).get('L')
-            if left_idx:
-                node.left = new_mapping.get(left_idx)
+            if left_idx: node.left = new_mapping.get(left_idx)
             right_idx = parent_to_child.get(i).get('R')
-            if right_idx:
-                node.right = new_mapping.get(right_idx)
-        # print([x.val for x in new_mapping.values()])
+            if right_idx: node.right = new_mapping.get(right_idx)
         return new_mapping.get(0)
 # Your Codec object will be instantiated and called as such:
 # ser = Codec()
