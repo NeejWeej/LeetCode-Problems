@@ -5,29 +5,25 @@ class Solution:
             return [0]
         heights = defaultdict(list)
         # heights = {0:0 for _ in range(n)}
-        e = defaultdict(list)
-        connections = defaultdict(int)
+        e = defaultdict(set)
         for a,b in edges:
-            e[a].append(b)
-            e[b].append(a)
-            connections[a] += 1
-            connections[b] += 1
-        start = set([x for x,i in connections.items() if i == 1])
+            e[a].add(b)
+            e[b].add(a)
+        start = set([x for x,i in e.items() if len(i) == 1])
         layer = start
         while layer:
             nl = set()
             if len(layer) == 1:
                 return layer
             for x in layer:
-                for y in e[x]:
+                while e[x]:
+                    y = e[x].pop()
                     if y in layer:
-                        return list(layer)
-                    if y in connections:
-                        connections[y] -= 1
-                        if connections.get(y) == 1:
-                            nl.add(y)
-            for x in layer:
-                del connections[x]
+                        return layer
+                    e[y].remove(x)
+                    if len(e[y]) == 1:
+                        nl.add(y)
+                del e[x]
             layer = nl
             
             
