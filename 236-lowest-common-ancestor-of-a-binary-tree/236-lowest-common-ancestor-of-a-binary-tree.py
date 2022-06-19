@@ -22,6 +22,7 @@ class Solution:
             path.pop()
             return None
         
+        
         p_path = isEqual([], root, p.val)
         p_set = set(p_path)
         q_path = isEqual([], root, q.val)
