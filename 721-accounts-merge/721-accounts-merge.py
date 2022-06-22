@@ -2,17 +2,15 @@ class Node:
     def __init__(self, name, parent=None):
         self.name = name
         self.parent = parent
-        # self.height = 0
 class Solution:
     from collections import defaultdict
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
         emailToOwner = {}
         idx = 0
-        for line in accounts:
-            name = line[0]
+        for name, *line in accounts:
             sameAs = {}
             newParent = Node(name)
-            for email in line[1:]:
+            for email in line:
                 if email in emailToOwner:
                     sameAs[emailToOwner[email]] = 1
                 emailToOwner[email] = newParent
