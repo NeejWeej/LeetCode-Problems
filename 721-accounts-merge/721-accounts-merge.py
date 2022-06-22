@@ -1,49 +1,41 @@
-from collections import defaultdict
+class Node:
+    def __init__(self, name, parent=None):
+        self.name = name
+        self.parent = parent
+        # self.height = 0
 class Solution:
+    from collections import defaultdict
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
-        def get_parent(parents, start):
-            # print('first '+start)
-            path = []
-            while parents.get(start):
-                path.append(start)
-                start = parents[start]
-                # print(start)
-            for p in path:
-                parents[p] = start
-            return start
-        accs = {}
-        acc_to_name = {}
-        for name, *account in accounts:
-            seen_person = False
-            seen_a = set()
-            for a in account:
-                if a in accs:
-                    seen_person = True
-                    seen_a.add(a)
-            if not seen_person:
-                first = account[0]
-                accs[first] = None
-                acc_to_name[first] = name
-                for acc in account:
-                    if acc != first:
-                        accs[acc] = first
-            elif seen_person:
-                first = next(iter(seen_a))
-                p = get_parent(accs, first)
-                for a in seen_a:
-                    parent = get_parent(accs, a)
-                    if parent != p:
-                        accs[parent] = p
-                for a in account:
-                    if a != p:
-                        accs[a] = p
-        set_items = defaultdict(list)
-        for a in accs:
-            p = get_parent(accs, a)
-            set_items[p].append(a)
-        ans = [
-            [acc_to_name.get(acc)] + sorted(it) 
-            for acc,it in set_items.items()
-            ]   
-        # print(accs)
+        emailToOwner = {}
+        idx = 0
+        for line in accounts:
+            name = line[0]
+            sameAs = {}
+            newParent = Node(name)
+            for email in line[1:]:
+                if email in emailToOwner:
+                    sameAs[emailToOwner[email]] = 1
+                emailToOwner[email] = newParent
+            sameAs.pop(newParent, "")
+            count = 0
+            for p in sameAs:
+                count = 0
+                while p.parent is not None and (p.parent != newParent):
+                    temp = p
+                    p = p.parent
+                    temp.parent = newParent
+                p.parent = newParent
+        accounts = defaultdict(list)
+        for email, parent in emailToOwner.items():
+            while parent.parent is not None:
+                parent = parent.parent
+            accounts[parent].append(email)
+        ans = []
+        for p, emails in accounts.items():
+            new = [p.name]
+            new += sorted(emails)
+            ans.append(new)
         return ans
+        
+                    
+            
