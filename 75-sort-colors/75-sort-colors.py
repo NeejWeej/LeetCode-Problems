@@ -3,16 +3,22 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        d = {0:0, 1:0, 2:0}
-        for num in nums:
-            d[num] += 1
-        d[1] += d[0]
-        d[2] += d[1]
-        for i in range(len(nums)):
-            if i < d[0]:
-                nums[i] = 0
-            elif i < d[1]:
-                nums[i] = 1
-            else:
-                nums[i] = 2
-        return nums
+        n = len(nums)
+        top = n
+        bot = -1
+        start = 0
+        while start < top:
+            color = nums[start]
+            if color == 0:
+                nums[bot + 1], nums[start] = nums[start], nums[bot + 1]
+                bot += 1
+                if start == bot:
+                    start += 1
+            elif color == 2:
+                nums[top - 1], nums[start] = nums[start], nums[top - 1]
+                top -= 1
+            elif color == 1:
+                start += 1
+        
+            
+        
