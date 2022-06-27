@@ -1,29 +1,30 @@
 class MyQueue:
 
     def __init__(self):
-        self.in_order = []
-        self.reversed = []
+        self.forward = []
+        self.rev = []
 
     def push(self, x: int) -> None:
-        self.in_order.append(x)
-    
-    def switch(self):
-        while self.in_order:
-            remove = self.in_order.pop()
-            self.reversed.append(remove)
+        self.forward.append(x)
 
     def pop(self) -> int:
-        if not self.reversed:
-            self.switch()
-        return self.reversed.pop()
+        if self.rev:
+            return self.rev.pop()
+        else:
+            while self.forward:
+                self.rev.append(self.forward.pop())
+            return self.rev.pop()
 
     def peek(self) -> int:
-        if not self.reversed:
-            self.switch()
-        return self.reversed[-1]
+        if self.rev:
+            return self.rev[-1]
+        else:
+            while self.forward:
+                self.rev.append(self.forward.pop())
+            return self.rev[-1]
 
     def empty(self) -> bool:
-        return not self.in_order and not self.reversed
+        return len(self.forward) == len(self.rev) == 0
 
 
 # Your MyQueue object will be instantiated and called as such:
