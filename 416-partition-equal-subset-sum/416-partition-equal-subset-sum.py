@@ -1,23 +1,22 @@
-class Solution:
+class Solution: 
     def canPartition(self, nums: List[int]) -> bool:
-        # speeds up the program
-        nums.sort(reverse=True)
-        # if sum of elements cant be divided equally
-        if sum(nums) % 2: return False
-        target = sum(nums) // 2
-        possible_sums = set([0])
-
-        for el in nums:
-            # using a temporary holder to not update possible_sums during cycle run
-            next_sums = set()
-            for s in possible_sums:
-                # if target sum is found, we may assume the other "half" is contained in 
-                # the remaining elemnts of nums
-                if s + el == target:
+        dp = set([0])
+        numSum = 0
+        maxNum = 0
+        for num in nums:
+            numSum += num
+            maxNum = max(maxNum, num)
+        goal = numSum // 2    
+        if numSum % 2 == 1 or maxNum > goal:
+            return False
+        for num in nums:
+            toAdd = set()
+            for d in dp:
+                if d + num == goal:
                     return True
-                if s + el < target:
-                    next_sums.add(s+el)
-            possible_sums.update(next_sums)
+                if d + num < goal and d + num not in dp:
+                    toAdd.add(d + num)
+            dp = dp | toAdd
         return False
-                
+            
             
