@@ -1,34 +1,20 @@
-class Solution:     
-#     def volume(self, height, left, right):
-#         return abs(left-right)*min(height[left],height[right])
-    
-#     def rec_area(self, height):
-#         if len(height)==2:
-#             return min(height[0],height[1])
-#         l = 0
-#         r = len(height)-1
-#         vol = self.volume(height,l,r)
-#         if height[l]<=height[r]:
-#             return max(vol, self.rec_area(height[1:]))
-#         if height[l]>height[r]:
-#             return max(vol, self.rec_area(height[:-1]))
-        
-        
-    def maxArea(self, height: List[int]) -> int: 
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        n = len(height)
+        left = 0
+        right = n - 1
         best = 0
-        start = 0
-        end = len(height) - 1
-        while start < end:
-            start_height = height[start]
-            end_height = height[end]
-            best = max(best, min(start_height, end_height) * (end - start))
-            if start_height == end_height:
-                start += 1
-                end -= 1
-            elif start_height < end_height:
-                start += 1
+        while left < right:
+            leftH = height[left]
+            rightH = height[right]
+            best = max(best, min(leftH, rightH) * (right - left))
+            if leftH < rightH:
+                left += 1
+            elif leftH == rightH:
+                left += 1
+                right -= 1
             else:
-                end -= 1
+                right -= 1
         return best
-                
             
+        
