@@ -1,29 +1,18 @@
-from collections import Counter
+from collections import Counter, defaultdict
 import heapq as hq
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         if n == 0:
             return len(tasks)
-        counts = Counter(tasks)
-        avail = [(-v, 0, k) for k,v in counts.items()]
-        hq.heapify(avail)
-        time = 0
-        heap = []
-        while heap or avail:
-            # print(avail)
-            # print(heap)
-            # print('~'*10)
-            while heap and heap[0][0] <= time:
-                nextTime, count, key = hq.heappop(heap)
-                hq.heappush(avail, (count, nextTime, key))
-            nextTime = count = key = None
-            if avail:
-                count, nextTime, key = hq.heappop(avail)
-            else:
-                nextTime, count, key = hq.heappop(heap)
-            count += 1
-            time = max(nextTime + 1, time + 1)
-            if count < 0:
-                hq.heappush(heap, (time + n, count, key))
-        return time
+        counter = defaultdict(int)
+        best = 0
+        for t in tasks:
+            counter[t] += 1
+            if counter[t] > best:
+                best = counter[t]
+        best_count = 0
+        for k,v in counter.items():
+            if v == best:
+                best_count += 1
+        return max(len(tasks), best_count + (n + 1)*(best - 1))
             
