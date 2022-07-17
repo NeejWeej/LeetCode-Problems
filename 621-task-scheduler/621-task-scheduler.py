@@ -1,34 +1,29 @@
+from collections import Counter
 import heapq as hq
-from collections import deque
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        chars = Counter(tasks)
-        hqq = [(-count, char) for char,count in chars.items()]
-        hq.heapify(hqq)
+        if n == 0:
+            return len(tasks)
+        counts = Counter(tasks)
+        avail = [(-v, 0, k) for k,v in counts.items()]
+        hq.heapify(avail)
         time = 0
-        dq = deque([])
-        # print(hqq)
-        while hqq or dq:
-            # print(hqq, dq, time)
-            time_s = float('inf')
-            if dq:
-                time_s, ch, count = dq[0]
-            if not hqq:
-                dq.popleft()
-                count += 1
-                time = time_s + 1
-                if count < 0:
-                    dq.append((time + n, ch, count))
+        heap = []
+        while heap or avail:
+            # print(avail)
+            # print(heap)
+            # print('~'*10)
+            while heap and heap[0][0] <= time:
+                nextTime, count, key = hq.heappop(heap)
+                hq.heappush(avail, (count, nextTime, key))
+            nextTime = count = key = None
+            if avail:
+                count, nextTime, key = hq.heappop(avail)
             else:
-                if time_s <= time:
-                    dq.popleft()
-                    hq.heappush(hqq, (count, ch))
-                count, ch = hq.heappop(hqq)
-                time += 1
-                count += 1
-                if count < 0:
-                    dq.append((time + n, ch, count))
+                nextTime, count, key = hq.heappop(heap)
+            count += 1
+            time = max(nextTime + 1, time + 1)
+            if count < 0:
+                hq.heappush(heap, (time + n, count, key))
         return time
-        
             
-        
