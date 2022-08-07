@@ -8,21 +8,15 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         def isEqual(path, curNode, target):
+            if not curNode: return None
             path.append(curNode)
             if curNode.val == target:
                 return path
             left = None
-            if curNode.left:
-                left = isEqual(path, curNode.left, target)
-            if left: return left
-            right = None
-            if curNode.right:
-                right = isEqual(path, curNode.right, target)
-            if right: return right
+            if left:= isEqual(path, curNode.left, target): return left
+            if right:= isEqual(path, curNode.right, target): return right
             path.pop()
             return None
-        
-        
         p_path = isEqual([], root, p.val)
         p_set = set(p_path)
         q_path = isEqual([], root, q.val)
