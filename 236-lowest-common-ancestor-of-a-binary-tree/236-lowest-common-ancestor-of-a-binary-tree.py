@@ -10,17 +10,13 @@ class Solution:
         def isEqual(path, curNode, target):
             if not curNode: return None
             path.append(curNode)
-            if curNode.val == target:
-                return path
-            left = None
+            if curNode.val == target: return path
             if left:= isEqual(path, curNode.left, target): return left
             if right:= isEqual(path, curNode.right, target): return right
             path.pop()
-            return None
         p_path = isEqual([], root, p.val)
         p_set = set(p_path)
         q_path = isEqual([], root, q.val)
         for n in reversed(q_path):
-            if n in p_path:
-                return n
+            if n in p_path: return n
             
