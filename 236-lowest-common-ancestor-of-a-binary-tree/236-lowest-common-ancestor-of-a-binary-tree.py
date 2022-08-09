@@ -25,12 +25,16 @@ class Solution:
             node, tag = stack[idx]
             if node.val == p.val: 
                 seen_p = True
+                if lca == -1:
+                    lca = len(stack) - 1
+                elif seen_q:
+                    return stack[lca][0]
             if node.val == q.val:
                 seen_q = True
-            if seen_q and seen_p:
-                return stack[lca][0]
-            if (seen_q or seen_p) and lca == -1:
-                lca = len(stack) - 1
+                if lca == -1:
+                    lca = len(stack) - 1
+                elif seen_p:
+                    return stack[lca][0]
                 
             if tag == 0:
                 if lca == len(stack) - 1: 
