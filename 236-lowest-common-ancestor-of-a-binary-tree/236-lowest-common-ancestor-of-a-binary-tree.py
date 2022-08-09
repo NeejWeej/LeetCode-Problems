@@ -39,8 +39,7 @@ class Solution:
             if tag == 0:
                 if lca == len(stack) - 1: 
                     lca -= 1
-                if lca == 0:
-                    return root
+                    if lca == 0: return root
                 stack.pop()
             
             elif tag == self.BOTH:
@@ -48,14 +47,14 @@ class Solution:
                 if tag - rand == self.LEFT:
                     if node.right: stack.append([node.right, self.BOTH])
                     stack[idx][1] = self.LEFT
-                if tag - rand == self.RIGHT:
+                else:
                     if node.left: stack.append([node.left, self.BOTH])
                     stack[idx][1] = self.RIGHT
                 
             else:
                 if tag == self.LEFT:
                     if node.left: stack.append([node.left, self.BOTH])
-                if tag == self.RIGHT:
+                elif tag == self.RIGHT:
                     if node.right: stack.append([node.right, self.BOTH])
                 stack[idx][1] = 0
 
