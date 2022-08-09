@@ -31,7 +31,10 @@ class Solution:
                 stack[-1][1] = tag - 1
                 if node.right: stack.append([node.right, self.BOTH])
             elif tag == self.DONE:
-                if lca == len(stack) - 1: lca -= 1
+                if lca == len(stack) - 1: 
+                    lca -= 1
+                if lca == 0:
+                    return root
                 stack.pop()
         
             
