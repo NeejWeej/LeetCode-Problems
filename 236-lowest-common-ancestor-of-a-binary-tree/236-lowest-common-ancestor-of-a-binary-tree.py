@@ -6,17 +6,33 @@
 #         self.right = None
 
 class Solution:
+    BOTH = 2
+    RIGHT = 1
+    DONE = 0
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        def isEqual(path, curNode, target):
-            if not curNode: return None
-            path.append(curNode)
-            if curNode.val == target: return path
-            if left:= isEqual(path, curNode.left, target): return left
-            if right:= isEqual(path, curNode.right, target): return right
-            path.pop()
-        p_path = isEqual([], root, p.val)
-        p_set = set(p_path)
-        q_path = isEqual([], root, q.val)
-        for n in reversed(q_path):
-            if n in p_path: return n
+        stack = [[root, self.BOTH]]
+        lca = -1
+        seen_p = False
+        seen_q = False
+        while stack:
+            node, tag = stack[-1]
+            if node.val == p.val: 
+                seen_p = True
+            if node.val == q.val:
+                seen_q = True
+            if seen_q and seen_p:
+                return stack[lca][0]
+            if (seen_q or seen_p) and lca == -1:
+                lca = len(stack) - 1
+            if tag == self.BOTH:
+                stack[-1][1] = tag - 1
+                if node.left: stack.append([node.left, self.BOTH])
+            elif tag == self.RIGHT:
+                stack[-1][1] = tag - 1
+                if node.right: stack.append([node.right, self.BOTH])
+            elif tag == self.DONE:
+                if lca == len(stack) - 1: lca -= 1
+                stack.pop()
+        
             
+                
