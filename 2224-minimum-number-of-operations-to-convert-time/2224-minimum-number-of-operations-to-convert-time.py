@@ -1,6 +1,6 @@
 class Solution:
     def convertTime(self, current: str, correct: str) -> int:
-        def getMinTimeOps(val):
+        def getMinTimeOps(val, times):
             ans = 0
             for time in times:
                 ans += val // time
@@ -14,7 +14,7 @@ class Solution:
         curTime = getTimeMinutes(*map(int, current.split(":")))
         corrTime = getTimeMinutes(*map(int, correct.split(":")))
         
-        return getMinTimeOps(corrTime - curTime)
+        return getMinTimeOps(corrTime - curTime, times)
             
             
             
