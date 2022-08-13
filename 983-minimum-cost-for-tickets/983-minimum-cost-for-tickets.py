@@ -3,7 +3,6 @@ class Solution:
     import itertools
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
         n = len(days)
-        # dp = [[float('inf'), 0] for _ in range(n)]
         tickets = [1, 7, 30]
         costVals = list(map(tuple, zip(costs, [-1, -7, -30])))
         cost, duration = sorted(costVals, key= lambda x: x[0])[0]
@@ -23,11 +22,9 @@ class Solution:
                     new_min = prev + price
                     new_dur = days[idx] + duration - d - 1
                     
-                    better = False
-                    if new_min < minCost:
-                        better = True
-                    elif new_min == minCost:
-                        better = minDuration > new_dur
+                    better = (new_min < minCost) or (
+                        new_min == minCost and minDuration > new_dur
+                    )
                         
                     if better:
                         minCost, minDuration = new_min, new_dur
