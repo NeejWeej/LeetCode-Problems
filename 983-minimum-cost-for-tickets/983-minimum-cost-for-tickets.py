@@ -6,7 +6,7 @@ class Solution:
         tickets = [1, 7, 30]
         costVals = list(map(tuple, zip(costs, [-1, -7, -30])))
         cost, duration = sorted(costVals, key= lambda x: x[0])[0]
-        dpCosts = [float('inf') for _ in range(n)]
+        dpCosts = [0 for _ in range(n)]
         dpDurations = [0 for _ in range(n)]
         dpCosts[0], dpDurations[0] = cost, -duration - 1
         for i,d in enumerate(itertools.islice(days, 1, n), 1):
