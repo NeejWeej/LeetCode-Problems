@@ -18,7 +18,8 @@ class Solution:
                 minCost, minDuration = float('inf'), 0
                 for duration, price in zip(tickets, costs):
                     idx = bisect.bisect_left(days, d - duration + 1, lo=0, hi=i + 1)
-                    prev = dpCosts[idx-1] if idx > 0 else 0
+                    # if idx == 0, then idx-1 goes to last spot which is 0, no need for check
+                    prev = dpCosts[idx-1]
                     new_min = prev + price
                     new_dur = days[idx] + duration - d - 1
                     
