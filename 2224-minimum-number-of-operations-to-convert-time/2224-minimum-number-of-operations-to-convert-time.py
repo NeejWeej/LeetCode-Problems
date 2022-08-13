@@ -7,19 +7,16 @@ class Solution:
                 val %= time
             return ans
         
-        times = [15, 5, 1]
+        def getTimeMinutes(hours, minutes):
+            return 60*hours + minutes
+        
+        times = [60, 15, 5, 1]
         curHr, curMin = map(int, current.split(":"))
         corrHr, corrMin = map(int, correct.split(":"))
         
-        if curMin <= corrMin:
-            res = (corrHr - curHr) % 24
-            diff = corrMin - curMin
-        else:
-            # in this case, since curr <= corr, know corrHr > curHr
-            res = (corrHr - curHr - 1) % 24
-            diff = (60 - curMin) + corrMin
-        res += getMinTimeOps(diff)
-        return res
+        curTime = getTimeMinutes(curHr, curMin)
+        corrTime = getTimeMinutes(corrHr, corrMin)
+        return getMinTimeOps(corrTime - curTime)
             
             
             
