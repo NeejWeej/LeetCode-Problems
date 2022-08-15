@@ -19,12 +19,11 @@ class Solution:
             
             for coins in range(k + 1):
                 best = 0
-                prevSize = len(dpPiles[i-1])
-                
                 for inPile in range(min(pileSize, coins + 1)):
                     cur = dpPiles[i][inPile]
                     last = dp[i-1][coins-inPile]
                     best = max(best, last + cur)
+                    
                 dp[i][coins] = best
                 
         return max(dp[n-1][:k + 1])
