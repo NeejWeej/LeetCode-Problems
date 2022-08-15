@@ -21,9 +21,7 @@ class Solution:
                 best = 0
                 prevSize = len(dpPiles[i-1])
                 
-                for inPile in range(coins + 1):
-                    if inPile >= pileSize:
-                        break
+                for inPile in range(min(pileSize, coins + 1)):
                     cur = dpPiles[i][inPile]
                     last = dp[i-1][coins-inPile]
                     best = max(best, last + cur)
