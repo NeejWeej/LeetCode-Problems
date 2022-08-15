@@ -13,11 +13,6 @@ class Solution:
             
         if len(firstPile) < k + 1:
             firstDP[len(firstPile)] = val
-            
-        # for idx, val in enumerate(piles[0]):
-        #     if idx == len(dp[0]) - 1:
-        #         break
-        #     dp[0][idx + 1] = dp[0][idx] + val
         
         for i in range(1, n):
             pileSize = len(piles[i])
