@@ -18,17 +18,17 @@ class Solution:
             pileSize = len(piles[i])
             
             for coins in range(k + 1):
-                best = 0
+                best = dp[i - 1][coins]
                 cur = 0
-                for inPile in range(min(pileSize, coins + 1)):
-                    last = dp[i-1][coins-inPile]
-                    best = max(best, last + cur)
+                for inPile in range(min(pileSize, coins)):
                     cur += piles[i][inPile]
-                    
-                if pileSize < coins + 1:
-                    # we ended early, have to include final coin added
                     last = dp[i-1][coins - inPile - 1]
-                    best = max(best, last + cur) 
+                    best = max(best, last + cur)
+                    
+                # if pileSize < coins + 1:
+                #     # we ended early, have to include final coin added
+                #     last = dp[i-1][coins - inPile - 1]
+                #     best = max(best, last + cur) 
                     
                 dp[i][coins] = best
                 
