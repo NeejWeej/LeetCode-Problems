@@ -1,30 +1,38 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        row = 0
+        col = 0
         m = len(matrix)
-        # if m == 1:
-        #     return [x for x in matrix[0]]
         n = len(matrix[0])
-        if n == 1:
-            return [matrix[i][0] for i in range(m)]
-        ans = [matrix[0][0]]
-        visited = set([(0,0)])
-        # right, left, down, up
-        r = c = 0
-        direc = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        while True:
-            for dx,dy in direc:
-                # print(r,c, visited)
-                tripped = False
-                r += dx
-                c += dy
-                while 0<=r<m and 0<=c<n and (r,c) not in visited:
-                    visited.add((r,c))
-                    ans.append(matrix[r][c])
-                    tripped = True
-                    r += dx
-                    c += dy
-                if not tripped: return ans
-                r -= dx
-                c -= dy
+        topRowSeen = -1
+        botRowSeen = m
+        leftColSeen = -1
+        rightColSeen = n
+        
+        res = [matrix[0][0]]
             
-            
+        while botRowSeen != topRowSeen or \
+        leftColSeen != rightColSeen:
+            for idx, (dx, dy) in enumerate(directions):
+                row += dx
+                col += dy
+                while botRowSeen > row > topRowSeen and \
+                leftColSeen < col < rightColSeen:
+                    res.append(matrix[row][col])
+                    row += dx
+                    col += dy
+                row -= dx
+                col -= dy
+                if idx == 0: 
+                    topRowSeen = max(row, topRowSeen)
+                elif idx == 1:
+                    rightColSeen = min(col, rightColSeen)
+                elif idx == 2:
+                    botRowSeen = min(row, botRowSeen)
+                elif idx == 3:
+                    leftColSeen = max(col, leftColSeen) 
+        
+        return res
+                
+        
