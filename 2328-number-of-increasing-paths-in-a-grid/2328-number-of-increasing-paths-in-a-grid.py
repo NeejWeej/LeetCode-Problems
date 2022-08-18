@@ -9,20 +9,19 @@ class Solution:
         
         def dfs(r, c):
             if self.dp[r][c][1]:
-                return
+                return self.dp[r][c][0]
             val = 1
             for dx, dy in directions:
                 if 0 <= r+dx <m and 0<= c + dy<n:
                     if grid[r+dx][c+dy] > grid[r][c]:
-                        dfs(r+dx, c + dy)
-                        val += self.dp[r+dx][c+dy][0]
+                        val += dfs(r+dx, c + dy)
             self.dp[r][c] = [val, True]
+            return val
         
         tot = 0
         for i in range(m):
             for j in range(n):
-                dfs(i,j)
-                tot += self.dp[i][j][0]
+                tot += dfs(i,j)
                 
         return tot % modVal
         
