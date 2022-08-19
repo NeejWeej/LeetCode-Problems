@@ -12,6 +12,8 @@ class Solution:
             if not node or not self.ans:
                 return 0
             left = height(node.left)
+            if not self.ans:
+                return 0
             right = height(node.right)
             if abs(left - right) > 1:
                 self.ans = False
