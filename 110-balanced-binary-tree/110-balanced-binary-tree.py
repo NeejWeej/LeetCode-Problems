@@ -9,14 +9,13 @@ class Solution:
         self.ans = True
         
         def height(node):
-            if not node or not self.ans:
+            if not node:
                 return 0
             left = height(node.left)
             right = height(node.right)
             if abs(left - right) > 1:
                 self.ans = False
-                return 0
-            return 1 + max(height(node.left), height(node.right))
+            return 1 + max(left, right)
         height(root)
         return self.ans
         
