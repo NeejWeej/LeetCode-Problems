@@ -16,7 +16,7 @@ class Solution:
             if abs(left - right) > 1:
                 self.ans = False
                 return 0
-            return 1 + max(left, right)
+            return 1 + max(height(node.left), height(node.right))
         height(root)
         return self.ans
         
