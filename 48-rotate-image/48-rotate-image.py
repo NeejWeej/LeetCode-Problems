@@ -5,17 +5,21 @@ class Solution:
         Do not return anything, modify matrix in-place instead.
         """
         
-        # transpose, then flip the new y-coordinate (swap within columns)
+        # x,y -> -y, x -> -x,-y -> y,-x -> x,y
+        # above is when going counterclockwise
+        # we want to swap horizontally (across columns)
+        # then we flip across the off-diagonal (to switch y,x)
         
         n = len(matrix)  
                 
-        for c in range(n):
-            for r in range(n // 2):
-                matrix[r][c], matrix[-r -1][c] = matrix[-r - 1][c], matrix[r][c]
-        
         for r in range(n):
-            for c in range(r + 1, n):
-                matrix[r][c], matrix[c][r] = matrix[c][r], matrix[r][c]
+            for c in range(n // 2):
+                matrix[r][c], matrix[r][-c-1] = matrix[r][-c-1], matrix[r][c]
+        
+        # swap across off-diagonal
+        for r in range(n):
+            for c in range(n - r):
+                matrix[r][c], matrix[n - 1 - c][n - 1 - r] = matrix[n - 1 - c][n - 1 -r], matrix[r][c]
         return
                 
                     
