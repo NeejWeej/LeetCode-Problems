@@ -4,35 +4,19 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
+        
+        # transpose, then flip the new y-coordinate (swap within columns)
+        
         n = len(matrix)  
+                
+        for c in range(n):
+            for r in range(n // 2):
+                matrix[r][c], matrix[-r -1][c] = matrix[-r - 1][c], matrix[r][c]
         
-        def rotateRecurse(bounds):
-            rowStart = colStart = bounds
-            # end is not inclusive!
-            rowEnd = colEnd = n - bounds
-            if rowEnd - rowStart <= 1:
-                return
-            deq = deque([])
-            for c in range(colStart, colEnd - 1):
-                deq.append(matrix[rowStart][c])
-                    
-            for r in range(rowStart, rowEnd - 1):
-                deq.append(matrix[r][colEnd - 1])
-                matrix[r][colEnd - 1] = deq.popleft()
-            
-            for c in range(colEnd - 1, colStart, -1):
-                deq.append(matrix[rowEnd - 1][c])
-                matrix[rowEnd - 1][c] = deq.popleft()
-            
-            for r in range(rowEnd - 1, rowStart, -1):
-                deq.append(matrix[r][colStart])
-                matrix[r][colStart] = deq.popleft()
-                        
-            for c in range(colStart, colEnd - 1):
-                matrix[rowStart][c] = deq.popleft()
-        
-        for i in range((n + 1) // 2):
-            rotateRecurse(i)
+        for r in range(n):
+            for c in range(r + 1, n):
+                matrix[r][c], matrix[c][r] = matrix[c][r], matrix[r][c]
         return
+                
                     
         
