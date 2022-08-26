@@ -1,22 +1,23 @@
 class Solution:
-    from itertools import islice
+    from collections import deque
     
     def trap(self, height: List[int]) -> int:
-        maxRight = []
+        maxRight = deque([])
+        
         for h in reversed(height):
-            if maxRight and maxRight[-1] > h:
-                maxRight.append(maxRight[-1])
+            if maxRight and maxRight[0] > h:
+                maxRight.appendleft(maxRight[0])
             else:
-                maxRight.append(h)
+                maxRight.appendleft(h)
+                
         res = 0
         left = 0
-        
-        for idx, h in enumerate(height):
+        for h in height:
+            right = maxRight.popleft()
             if h >= left:
-                left = h
-                
+                left = h 
             else:
-                res += min(left, maxRight[-idx - 1]) - h
+                res += min(left, right) - h
                 
         return res
                 
