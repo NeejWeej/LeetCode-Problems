@@ -1,11 +1,12 @@
 class Solution:
+    from itertools import islice
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort(key = lambda x: x[0])
-        result = [intervals[0]]
-        for start, end in intervals[1:]:
-            last = result[-1][1]
-            if start <= last:
-                result[-1][1] = max(last, end)
+        intervals.sort(key= lambda x: x[0])
+        res = [intervals[0]]
+        for s,e in islice(intervals, 1, len(intervals)):
+            if s <= res[-1][1]:
+                res[-1][1] = max(e, res[-1][1])
             else:
-                result.append([start, end])
-        return result
+                res.append([s,e])
+            
+        return res
