@@ -1,28 +1,34 @@
 class Solution:
-    from collections import defaultdict
+    from collections import deque
     def largestRectangleArea(self, heights: List[int]) -> int:
-        self.max = 0
-        self.cur_max = [0 for _ in range(len(heights))]
-        def getMaxStartingLeft(height, stack, left):
-            def leftShift(x, n, left):
-                return x if left else n - 1 - x
-            n = len(height) - 1
-            for i, h in enumerate(height):
-                while stack and h < stack[-1][1]:
-                    idx, old_h = stack[-1]
-                    new_area = (i - idx) * old_h
-                    new_idx = leftShift(idx, n, left)
-                    stack.pop()
-                    if not left:
-                        new_area -= old_h
-                    self.cur_max[new_idx] += new_area
-                    self.max = max(self.max, self.cur_max[new_idx])
-                stack.append((i, h))
-        heights.append(-1) 
-        getMaxStartingLeft(heights, [], True)
-        heights.pop()
-        heights = heights[::-1]
-        heights.append(-1)
-        getMaxStartingLeft(heights, [], False)
-        # print(self.cur_max)
-        return self.max
+        deq = deque([])
+        n = len(heights)
+        rightExtend = [0] * n
+        for i,v in enumerate(heights):
+            while len(deq) > 0 and v < deq[-1][1]:
+                idx, lastVal = deq.pop()
+                rightExtend[idx] = i - idx
+            deq.append((i, v))
+        
+        while len(deq) > 0:
+            idx, lastVal = deq.pop()
+            rightExtend[idx] = n - idx 
+            
+        leftExtend = [0] * n
+        
+        for i,v in enumerate(reversed(heights)):
+            while len(deq) > 0 and v < deq[-1][1]:
+                idx, lastVal = deq.pop()
+                leftExtend[idx] = i - idx
+            deq.append((i, v))
+        
+        while len(deq) > 0:
+            idx, lastVal = deq.pop()
+            leftExtend[idx] = n - idx 
+            
+        vals = [h*(leftExtend[-i-1] + rightExtend[i] - 1) for i,h in enumerate(heights)]
+        return max(vals)
+            
+        
+            
+            
