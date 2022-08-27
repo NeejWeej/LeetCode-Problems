@@ -25,9 +25,10 @@ class Solution:
         while stack:
             idx, lastVal = stack.pop()
             leftExtend[idx] = n - idx 
-            
-        vals = [h*(leftExtend[-i-1] + rightExtend[i] - 1) for i,h in enumerate(heights)]
-        return max(vals)
+        ans = 0
+        for i,h in enumerate(heights):
+            ans = max(ans, h * (leftExtend[-i-1] + rightExtend[i] - 1))
+        return ans
             
         
             
