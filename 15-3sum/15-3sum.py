@@ -5,6 +5,8 @@ class Solution:
         n = len(nums)
         ans = set([])
         for idx, num in enumerate(islice(nums, 0, n - 2)):
+            if idx > 0 and num == nums[idx - 1]:
+                continue
             l = idx + 1
             r = n - 1
             while l < r:
