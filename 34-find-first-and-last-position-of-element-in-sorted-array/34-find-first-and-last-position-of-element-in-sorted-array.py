@@ -1,34 +1,35 @@
 class Solution:
     def searchRange(self, nums: List[int], target: int) -> List[int]:
-        if not nums:
-            return [-1, -1]
+        l = 0
+        r = len(nums)
+        ans = [-1, -1]
+        if not nums or target < nums[0] or nums[-1] < target:
+            return ans
         
-        def findFirst(num, nums):
-            l = 0
-            r = len(nums)
-            if nums[-1] < num:
-                return -1
-            while l < r:
-                mid = (l + r) // 2
-                if nums[mid] < num:
-                    l = mid + 1
-                else:
-                    r = mid
-            return l if nums[l] == num else -1
-        
-        def findLast(num, nums):
-            l = 0
-            r = len(nums)
-            if num < nums[0]:
-                return -1
+        while l < r:
+            mid = (l + r) // 2
             
-            while l < r:
-                mid = (l + r) // 2
-                if nums[mid] <= num:
-                    l = mid + 1
-                else:
-                    r = mid
-                    
-            return l - 1 if nums[l - 1] == num else -1
+            if nums[mid] < target:
+                l = mid + 1
+                
+            else:
+                r = mid
+        if nums[l] != target:
+            return ans
         
-        return [findFirst(target, nums), findLast(target, nums)]
+        ans[0] = l
+        r = len(nums)
+        while l < r:
+            mid = (l + r)//2
+            
+            if nums[mid] <= target:
+                l = mid + 1
+            else:
+                r = mid
+                
+        ans[1] = l - 1
+        return ans
+        
+        
+        
+            
