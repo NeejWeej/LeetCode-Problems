@@ -7,6 +7,9 @@ class Solution:
         n = len(isConnected)
         
         def search(cur):
+            if cur in seen:
+                return
+            
             seen.add(cur)
             for neigh in range(n):
                 if isConnected[cur][neigh] and neigh not in seen:
