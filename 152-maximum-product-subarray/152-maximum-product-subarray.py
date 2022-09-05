@@ -9,7 +9,6 @@ class Solution:
             smallDP = candidates[0]
             if best < largeDP:
                 best = largeDP
-            # best = max(largeDP, best)
         
         return best
                 
