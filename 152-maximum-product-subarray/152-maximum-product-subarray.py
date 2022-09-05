@@ -4,9 +4,11 @@ class Solution:
     def maxProduct(self, nums: List[int]) -> int:
         largeDP = smallDP = best = nums[0]
         for num in islice(nums, 1, len(nums)):
-            largeNew = max(num, smallDP * num, largeDP * num)
-            smallNew = min(num, smallDP * num, largeDP * num)
-            largeDP, smallDP = largeNew, smallNew
+            candidates = sorted([num, smallDP * num, largeDP*num])
+            largeDP = candidates[-1]
+            smallDP = candidates[0]
+            # if best < largeDP:
+            #     best = largeDP
             best = max(largeDP, best)
         
         return best
