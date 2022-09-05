@@ -7,9 +7,9 @@ class Solution:
             candidates = sorted([num, smallDP * num, largeDP*num])
             largeDP = candidates[-1]
             smallDP = candidates[0]
-            # if best < largeDP:
-            #     best = largeDP
-            best = max(largeDP, best)
+            if best < largeDP:
+                best = largeDP
+            # best = max(largeDP, best)
         
         return best
                 
