@@ -11,18 +11,19 @@ class Solution:
             old = board[r][c]
             board[r][c] = '$'
             
-            if needIdx == wordLen or self.ans:
-                self.ans = True
-                return
+            if needIdx == wordLen:
+                return True
+            
             for dx, dy in direc:
                 if 0 <= r+dx<m and 0<=c+dy<n and board[r+dx][c+dy] == word[needIdx]:
-                    search(r+dx, c+dy, needIdx + 1)
+                    if search(r+dx, c+dy, needIdx + 1):
+                        return True
             board[r][c] = old
+            return False
         
         for i in range(m):
             for j in range(n):
-                if board[i][j] == word[0]:
-                    search(i, j, 1)
-                    if self.ans:
-                        return True
-        return self.ans
+                if board[i][j] == word[0] and search(i, j, 1):
+                    return True
+
+        return False
