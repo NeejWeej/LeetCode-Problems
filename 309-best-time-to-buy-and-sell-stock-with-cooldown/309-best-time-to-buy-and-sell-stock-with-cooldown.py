@@ -1,5 +1,4 @@
 class Solution:
-    from itertools import islice
     def maxProfit(self, prices: List[int]) -> int:
         n = len(prices)
         best = 0
