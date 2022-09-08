@@ -24,6 +24,5 @@ class Solution:
                     dp[i + 1][j + 1] = dp[i][j]
                 else:
                     dp[i + 1][j + 1] = 1 + min(dp[i][j], dp[i + 1][j], dp[i][j + 1])
-        print(dp)
         return dp[-1][-1]
         
