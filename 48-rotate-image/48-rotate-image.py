@@ -4,23 +4,21 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
+        n = len(matrix)
         
-        # x,y -> -y, x -> -x,-y -> y,-x -> x,y
-        # above is when going counterclockwise
-        # we want to swap horizontally (across columns)
-        # then we flip across the off-diagonal (to switch y,x)
+        for i in range(n):
+            for j in range(i + 1, n):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
         
-        n = len(matrix)  
-                
-        for r in range(n):
-            for c in range(n // 2):
-                matrix[r][c], matrix[r][-c-1] = matrix[r][-c-1], matrix[r][c]
-        
-        # swap across off-diagonal
-        for r in range(n):
-            for c in range(n - r):
-                matrix[r][c], matrix[n - 1 - c][n - 1 - r] = matrix[n - 1 - c][n - 1 -r], matrix[r][c]
+        for row in range(n):
+            matRow = matrix[row]
+            l,r = 0, n - 1
+            while l < r:
+                matRow[l], matRow[r] = matRow[r], matRow[l]
+                l += 1
+                r -= 1
         return
+                
                 
                     
         
