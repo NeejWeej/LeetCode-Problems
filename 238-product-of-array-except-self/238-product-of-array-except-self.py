@@ -1,17 +1,17 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        n = len(nums)        
-        right = [1 for _ in range(n)]
-        for i in range(n - 2, -1, -1):
-            right[i] = right[i + 1] * nums[i + 1]
-        last = 1
+        n = len(nums)
+        leftProd = [1 for _ in range(n)]
+        
         for i in range(1, n):
-            last *= nums[i-1]
-            right[i] *= last
-        return right
+            leftProd[i] = leftProd[i - 1] * nums[i - 1]
         
+        # do rightProd
+        fromRight = 1
+        for i in range(n - 1, -1, -1):
+            leftProd[i] *= fromRight
+            fromRight *= nums[i]
         
-        
-        
-        
+        return leftProd
+            
         
