@@ -17,7 +17,7 @@ class Solution:
                     stack.append(l*r)
                     
                 elif tok == "/":
-                    if l * r >= 0:
+                    if (l >= 0 and r>=0) or (l <= 0 and r <= 0):
                         stack.append(l // r)
                         
                     else:
