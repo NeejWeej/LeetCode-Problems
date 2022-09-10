@@ -7,72 +7,22 @@ class Node:
 """
 
 class Solution:
-    def cloneGraph(self, node: 'Node') -> 'Node': 
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        cloneG = collections.defaultdict(Node)
         if not node:
-            return None
-        clone_dict = {node.val: Node(node.val)}
-        seen = set([node.val])
-        stack = [node]
-        while stack:
-            cur = stack.pop()
-            cur_copy = clone_dict.get(cur.val)
-            for neigh in cur.neighbors:
-                if neigh.val not in clone_dict:
-                    clone_dict[neigh.val] = Node(neigh.val)
-                neigh_copy = clone_dict.get(neigh.val)
-                
-                cur_copy.neighbors.append(neigh_copy)
-                
+            return
+        def addGraph(g, n, seen):
+            if n.val in seen:
+                return
+            seen.add(n.val)
+            g[n.val].val = n.val
+            for neigh in n.neighbors:
+                g[n.val].neighbors.append(g[neigh.val])
                 if neigh.val not in seen:
-                    stack.append(neigh)
-                    seen.add(neigh.val)
-        return clone_dict.get(node.val)
-                
+                    addGraph(g, neigh, seen)
+            
+        addGraph(cloneG, node, set())
+        return cloneG[node.val]
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-#                 if not node: return None
-#         clones = collections.defaultdict(lambda : Node())
-#         stack = [node]
-#         visited = set([node.val])
-#         while stack:
-#             curr = stack.pop()
-#             cVal = curr.val
-#             clones[cVal].val = cVal
-#             for neighbor in curr.neighbors:
-#                 nVal = neighbor.val
-#                 clones[cVal].neighbors.append(clones[nVal])
-#                 if nVal not in visited:
-#                     stack.append(neighbor)
-#                     visited.add(nVal)
-#         return clones.get(node.val)
