@@ -1,20 +1,26 @@
 class Solution:
-    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
-        oldColor = image[sr][sc]
-        if oldColor == newColor:
-            return image
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
         m = len(image)
         n = len(image[0])
-        direc = [(0,1), (1, 0), (-1, 0), (0, -1)]
-        stack = [(sr, sc)]
-        image[sr][sc] = newColor
+        origColor = image[sr][sc]
         
-        while stack:
-            x,y = stack.pop()[:]
+        if origColor == color:
+            return image
+        
+        image[sr][sc] = color
+        
+        direc = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        def isValid(r, c):
+            return 0<=r<m and 0<=c<n
+        
+        
+        q = [(sr, sc)]
+        while q:
+            r, c = q.pop()
             for dx, dy in direc:
-                if 0 <= x + dx < m and 0 <= y + dy < n:
-                    if image[x + dx][y + dy] == oldColor:
-                        stack.append((x + dx, y + dy))
-                        image[x + dx][y + dy] = newColor
-        return image
+                if isValid(r+dx, c+dy) and image[r+dx][c+dy] == origColor:
+                    image[r+dx][c+dy] = color
+                    q.append((r+dx, c+dy))
         
+        return image
