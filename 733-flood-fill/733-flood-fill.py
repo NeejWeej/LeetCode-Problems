@@ -17,10 +17,12 @@ class Solution:
         
         q = [(sr, sc)]
         while q:
-            r, c = q.pop()
-            for dx, dy in direc:
-                if isValid(r+dx, c+dy) and image[r+dx][c+dy] == origColor:
-                    image[r+dx][c+dy] = color
-                    q.append((r+dx, c+dy))
+            nextQ = []
+            for r,c in q:
+                for dx, dy in direc:
+                    if isValid(r+dx, c+dy) and image[r+dx][c+dy] == origColor:
+                        image[r+dx][c+dy] = color
+                        nextQ.append((r+dx, c+dy))
+            q = nextQ
         
         return image
