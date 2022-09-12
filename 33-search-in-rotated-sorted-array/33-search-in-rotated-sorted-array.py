@@ -1,55 +1,48 @@
 class Solution:
-    def binSearch(nums, target):
-        start = 0
-        end = len(nums) - 1
-        while start < end:
-            mid = start + (end - start) // 2
-            if nums[mid] == target:
-                return mid
-            elif nums[mid] < target:
-                start = mid + 1
-            else:
-                end = mid - 1
-        if nums[start] == target:
-            return start
-        return -1
-    
     def search(self, nums: List[int], target: int) -> int:
+        # pivot is first number less than start
+        # it is also minimum
         n = len(nums)
-        
-        if nums[n - 1] >= nums[0]:
-            return Solution.binSearch(nums, target)
-    
-        start = 0
-        end = len(nums) - 1
-        rot_idx = 0
-        while start <= end:
-            mid = start + (end - start) // 2
-            if nums[mid] > nums[mid + 1]:
-                rot_idx = mid + 1
-                break
-            elif nums[mid] > nums[start]:
-                start = mid + 1
-            else:
-                end = mid
-        # print(rot_idx)
-        if target == nums[rot_idx]:
-            return rot_idx
-        
-        if target <= nums[n-1]:
-            idx = Solution.binSearch(nums[rot_idx:], target)
-            if idx == -1:
-                return idx
-            return idx + rot_idx
-        else:
-            idx = Solution.binSearch(nums[:rot_idx], target)
-            return idx
-        
-        
-        
-                
-
-        
+        # if n == 1:
             
+        l, r = 0, n
+        start = nums[0]
+        
+        while l < r:
+            mid = (l + r) // 2
+            if nums[mid] < start:
+                r = mid
+            elif nums[mid] >= start:
+                l = mid + 1
+    
+        # so if pivot n, go to 0 cause thats the minimum
+        pivot = l % n
+        
+        lB, rB = 0, pivot
+        lS, rS = pivot, n
+        
+        while lB < rB:
+            mid = (lB + rB) // 2
+            if nums[mid] < target:
+                lB = mid + 1
+            elif nums[mid] >= target:
+                rB = mid
                 
+        if nums[lB] == target:
+            return lB
+        
+        while lS < rS:
+            mid = (lS + rS) // 2
+            if nums[mid] < target:
+                lS = mid + 1
+            elif nums[mid] >= target:
+                rS = mid 
+        
+        if lS != n and nums[lS] == target:
+            return lS
+        
+        return -1
+            
+            
+            
         
