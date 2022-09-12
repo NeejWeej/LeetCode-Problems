@@ -14,12 +14,12 @@ class Solution:
             while idx < n and intervals[idx][0] <= q:
                 s,e = intervals[idx]
                 if e >= q:
-                    tup = (e - s + 1, s, e)
+                    tup = (e - s + 1, e)
                     hq.heappush(validIntervals, tup)
                 idx += 1
                 
             while validIntervals:
-                length, s, e = validIntervals[0]
+                length, e = validIntervals[0]
                 if q <= e:
                     qDict[q] = length
                     break
