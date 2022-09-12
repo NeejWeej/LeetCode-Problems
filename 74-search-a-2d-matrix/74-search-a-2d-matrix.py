@@ -3,8 +3,10 @@ class Solution:
         m = len(matrix)
         n = len(matrix[0])
         
-        if matrix[-1][-1] < target:
-            return False
+        end = matrix[-1][-1]
+        
+        if end <= target:
+            return end == target
         
         l, r = 0, m*n
         
