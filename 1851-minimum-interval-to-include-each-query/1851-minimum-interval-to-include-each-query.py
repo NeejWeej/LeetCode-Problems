@@ -20,7 +20,7 @@ class Solution:
                 
             while validIntervals:
                 length, s, e = validIntervals[0]
-                if s <= q <= e:
+                if q <= e:
                     qDict[q] = length
                     break
                 hq.heappop(validIntervals)
