@@ -7,11 +7,9 @@ class Solution:
         
         it = iter(nums)
         first = next(it)
-        if first == 0:
-            dp[first] = 2
-        else:
-            dp[first] = 1
-            dp[-first] = 1
+        dp[first] += 1
+        dp[-first] += 1
+            
         for num in it:
             # print(dp)
             newDP = collections.defaultdict(int)
