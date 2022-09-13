@@ -1,12 +1,15 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        c2o = {'}': '{', ']': '[', ')': '('}
         stack = []
+        
+        leftSet = set(['[', '(', '{'])
+        match = {'}':'{', ')': '(', ']':'['}
         for c in s:
-            if c not in c2o:
-                stack.append(c)
-            elif stack and stack[-1] == c2o.get(c):
+            if c in match:
+                if stack and stack[-1] == match.get(c):
                     stack.pop()
+                else:
+                    return False
             else:
-                return False
-        return len(stack) == 0
+                stack.append(c)
+        return not stack
