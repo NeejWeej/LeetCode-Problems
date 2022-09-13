@@ -56,7 +56,7 @@ class Solution:
             
             minH.push(val, i)
             maxH.push(*minH.pop())
-            if len(maxH.indices) > len(minH.indices):
+            while len(maxH.indices) > len(minH.indices):
                 minH.push(*maxH.pop())
             ans.append(median())
         
