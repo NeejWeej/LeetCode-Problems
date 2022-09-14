@@ -8,21 +8,18 @@ class Solution:
         # we can combine transactions b1,s1 b2,s2 if s1 - b1 - fee + s2 - b2 - fee < s2 - b1 - fee
         # s1 - b2 - fee < 0
         
-        lastSell = -1
+        lastSell = float('inf')
         bestBuy = [float('inf') for _ in range(n)]
         profit = 0
         for i,p in enumerate(prices):
             oldProfit = profit
-            if lastSell == -1:
-                profit += p - bestBuy[i - 1] - fee
-            else:
-                profit += max(p - bestBuy[i - 1] - fee, p - prices[lastSell]) 
+            profit += max(p - bestBuy[i - 1] - fee, p - lastSell) 
                           # -lastSell (:= prices[lastSell] - bestBuy[lastSell] - fee) + p - bestBuy[lastSell] - fee)
             if profit <= oldProfit:
                 profit = oldProfit
                 bestBuy[i] = min(p, bestBuy[i - 1])
             else:
-                lastSell = i
+                lastSell = p
                 bestBuy[i] = p
         
         return profit
