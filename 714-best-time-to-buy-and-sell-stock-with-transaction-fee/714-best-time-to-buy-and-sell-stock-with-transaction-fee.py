@@ -9,18 +9,18 @@ class Solution:
         # s1 - b2 - fee < 0
         
         lastSell = float('inf')
-        bestBuy = [float('inf') for _ in range(n)]
+        bestB = float('inf')
         profit = 0
         for i,p in enumerate(prices):
             oldProfit = profit
-            profit += max(p - bestBuy[i - 1] - fee, p - lastSell) 
+            profit += max(p - bestB - fee, p - lastSell) 
                           # -lastSell (:= prices[lastSell] - bestBuy[lastSell] - fee) + p - bestBuy[lastSell] - fee)
             if profit <= oldProfit:
                 profit = oldProfit
-                bestBuy[i] = min(p, bestBuy[i - 1])
+                bestB = min(p, bestB)
             else:
                 lastSell = p
-                bestBuy[i] = p
+                bestB = p
         
         return profit
         
