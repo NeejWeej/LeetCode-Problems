@@ -3,7 +3,7 @@ class Solution:
         if k == 0:
             return 0
         buys = [float('inf') for _ in range(k)]
-        sells = [0 for _ in range(k)]
+        sells = [float('-inf') for _ in range(k)]
         for p in prices:
             buys[0] = min(p, buys[0])
             sells[0] = max(sells[0], p - buys[0])
