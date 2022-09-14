@@ -25,7 +25,7 @@ class Solution:
                 lastSell = i
                 bestBuy[i] = p
         
-        return max(0, profit)
+        return profit
         
 #         best = float('inf')
 #         profit = 0
