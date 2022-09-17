@@ -30,7 +30,8 @@ class Solution:
                 cost += d
                 included.add(p1)
                 for pair in nodeToDist.get(p1):
-                    heapq.heappush(distances, pair)
+                    if pair not in included:
+                        heapq.heappush(distances, pair)
                     
         return cost
                 
