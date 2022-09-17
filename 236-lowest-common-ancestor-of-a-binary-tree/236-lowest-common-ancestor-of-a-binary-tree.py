@@ -8,13 +8,13 @@ import random
 
 class Solution:
     def randSide(self):
-        x = random.random()
-        if x >= 0.5:
-            return 2
-        return 1
+        return random.randint(1, 2)
+
     BOTH = 3
     LEFT = 2
     RIGHT = 1
+    NONE = 0
+    
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         stack = [[root, self.BOTH]]
         lca = -1
@@ -36,7 +36,7 @@ class Solution:
                 elif seen_p:
                     return stack[lca][0]
                 
-            if tag == 0:
+            if tag == self.NONE:
                 if lca == len(stack) - 1: 
                     lca -= 1
                     if lca == 0: return root
@@ -56,7 +56,7 @@ class Solution:
                     if node.left: stack.append([node.left, self.BOTH])
                 elif tag == self.RIGHT:
                     if node.right: stack.append([node.right, self.BOTH])
-                stack[idx][1] = 0
+                stack[idx][1] = self.NONE
 
         
             
