@@ -7,9 +7,6 @@
 import random
 
 class Solution:
-    def randSide(self):
-        return random.randint(1, 2)
-
     BOTH = 3
     LEFT = 2
     RIGHT = 1
@@ -43,7 +40,7 @@ class Solution:
                 stack.pop()
             
             elif tag == self.BOTH:
-                rand = self.randSide()
+                rand = random.randint(1, 2)
                 if tag - rand == self.LEFT:
                     if node.right: stack.append([node.right, self.BOTH])
                     stack[idx][1] = self.LEFT
