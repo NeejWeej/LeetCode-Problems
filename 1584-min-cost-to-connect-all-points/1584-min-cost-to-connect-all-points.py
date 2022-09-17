@@ -8,6 +8,7 @@ class Solution:
         included = set()
         
         distances = []
+        curMin = {}
         
         nodeToDist = collections.defaultdict(list)
         
@@ -31,7 +32,8 @@ class Solution:
                 included.add(p1)
                 for pair in nodeToDist.get(p1):
                     d, p = pair
-                    if p not in included:
+                    if p not in included and curMin.get(p, float('inf')) > d:
+                        curMin[p] = d
                         heapq.heappush(distances, pair)
                     
         return cost
