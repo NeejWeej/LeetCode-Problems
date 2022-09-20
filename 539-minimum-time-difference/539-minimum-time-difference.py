@@ -2,6 +2,8 @@ class Solution:
     def findMinDifference(self, timePoints: List[str]) -> int:
         times = []
         n = len(timePoints)
+        if n >= 24*60:
+            return 0
         for time in timePoints:
             hr, minutes = time.split(':')
             times.append(int(hr)*60 + int(minutes))
