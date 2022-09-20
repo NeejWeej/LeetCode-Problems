@@ -25,21 +25,23 @@ class Solution:
                 
             
         def dfs(r, c):
+            if self.done:
+                return
             newR, newC = nextSpot(r, c)
-            if board[r][c] != '.' or self.done:
+            if board[r][c] != '.':
                 if r == 8 and c == 8:
                     self.done = True
-                if not self.done:
-                    dfs(newR, newC)
+                dfs(newR, newC)
             else:
                 for v in range(1, 10):
                     strV = str(v)
-                    if not self.done and isValid(strV, r, c):
+                    if self.done:
+                        return
+                    if isValid(strV, r, c):
                         board[r][c] = strV
                         if r == 8 and c==8:
                             self.done = True
-                        else:
-                            dfs(newR, newC)
+                        dfs(newR, newC)
                 if not self.done:
                     board[r][c] = '.'
         dfs(0, 0)
