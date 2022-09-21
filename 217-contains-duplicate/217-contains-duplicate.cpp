@@ -4,7 +4,7 @@ public:
         unordered_map<int, int> seen;
         
         for(int num: nums){
-            if(seen.count(num)) return true;
+            if(seen.find(num) != seen.end()) return true;
             seen.insert({num, 1});
         }
         return false;
