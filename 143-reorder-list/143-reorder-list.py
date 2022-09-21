@@ -8,20 +8,25 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        arr = []
+        mapp = {}
+        
         cur = head
+        val = 0
+        
         while cur:
-            arr.append(cur)
+            mapp[val] = cur
             cur = cur.next
+            val += 1
+        val -= 1
         start = 0
-        end = len(arr) - 1
-        while start < end:
-            arr[start].next = arr[end]
+        
+        while start <= val // 2:
+            mapp[start].next= mapp[val - start]
+            if start + 1 <= val // 2:
+                mapp[val - start].next = mapp[start + 1]
+            else:
+                mapp[val - start].next = None
             start += 1
-            if start == end:
-                break
-            arr[end].next = arr[start]
-            end -= 1
-        arr[end].next = None
+        
         return head
         
