@@ -17,7 +17,8 @@ class Solution:
                 lastTime = time
                 seen.add(nextNode)
                 for child, delay in graph.get(nextNode, {}).items():
-                    hq.heappush(d, (time + delay, child))
+                    if child not in seen:
+                        hq.heappush(d, (time + delay, child))
                     
         return lastTime if len(seen) == n else -1
         
