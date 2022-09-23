@@ -36,6 +36,8 @@ public:
             if(itEle != queryMap.end()) ans[i] = itEle->second;
         }
         
+        sortedQueries.clear();
+        queryMap.clear();
         return ans;
     }
 };
