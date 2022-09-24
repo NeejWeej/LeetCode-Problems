@@ -36,12 +36,13 @@ public:
                 it--;
                 int profitWith = (*it).second + p;
                 int profitWithout = dp[i].second; 
-                if (profitWith <= profitWithout){
-                    dp[i + 1] = dp[i];
-                }
-                else{
-                    dp[i + 1] = make_pair(e, profitWith);
-                }
+                dp[i+1] = (profitWith <= profitWithout)?dp[i]:make_pair(e, profitWith);
+                // if (profitWith <= profitWithout){
+                //     dp[i + 1] = dp[i];
+                // }
+                // else{
+                //     dp[i + 1] = make_pair(e, profitWith);
+                // }
             }
         }
         return get<1>(dp.back());
