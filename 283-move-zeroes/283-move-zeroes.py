@@ -10,7 +10,7 @@ class Solution:
                 nums[i], nums[pos] = nums[pos], nums[i]
                 pos += 1
         
-        nums[pos:] = [0] * (n - pos)
+        # nums[pos:] = [0] * (n - pos)
         
 #         lastZero = n
 #         curI = n - 1
