@@ -20,7 +20,7 @@ public:
         int ans{0};
         if(root->val >= maxV){
             maxV = root->val;
-            ans++;
+            ++ans;
         }
         return helper(root->left, maxV) + helper(root->right, maxV) + ans;
     }
