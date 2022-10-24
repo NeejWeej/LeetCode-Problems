@@ -14,10 +14,8 @@ public:
         
         vector<tempIdx> data;
         int counter = 0;
-        while(counter < n){
-            int idx = counter;
-            int temp = temperatures[counter];
-            ++counter;
+        for(int idx = 0; idx<n; ++idx){
+            int temp = temperatures[idx];
             while(data.size() > 0){
                 tempIdx& end = data.back();
                 if (end.temp >= temp){
