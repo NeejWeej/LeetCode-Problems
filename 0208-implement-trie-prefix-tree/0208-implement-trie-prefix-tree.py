@@ -28,8 +28,10 @@ class Node:
                 return True
             if word[wordIdx] != char:
                 return False
-            if wordIdx == len(word) - 1 and i == len(self.val) - 1:
-                return True
+            # if wordIdx == len(word) - 1 and i == len(self.val) - 1:
+            #     return True
+        if len(self.val) + idx == len(word):
+            return True
         nextLetter = word[len(self.val) + idx]
         if nextNode := self.children.get(nextLetter):
             return nextNode.prefixSearch(word, idx + len(self.val) + 1)
