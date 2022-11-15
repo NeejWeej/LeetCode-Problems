@@ -54,9 +54,12 @@ class Node:
                 self.is_word = True
                 
         elif not self.val:
-            for child, node in self.children.items():
-                if child == word[idx]:
-                    return node.insert(word, idx + 1)
+            child = self.children.get(word[idx])
+            if child: 
+                return child.insert(word, idx + 1)
+            # for child, node in self.children.items():
+            #     if child == word[idx]:
+            #         return node.insert(word, idx + 1)
             nextNode = Node()
             self.children[word[idx]] = nextNode
             nextNode.is_word = True
