@@ -17,10 +17,9 @@ class Node:
             if wordIdx == len(word) - 1 and i == len(self.val) - 1:
                 return self.is_word
         nextLetter = word[len(self.val) + idx]
-        nextNode = self.children.get(nextLetter)
-        if not nextNode:
-            return False
-        return nextNode.search(word, idx + len(self.val) + 1)
+        if nextNode:= self.children.get(nextLetter):
+            return nextNode.search(word, idx + len(self.val) + 1)
+        return False
 
     def prefixSearch(self, word, idx):
         if len(word) == idx:
@@ -33,23 +32,22 @@ class Node:
                 return False
             if wordIdx == len(word) - 1 and i == len(self.val) - 1:
                 return True
-        next_letter = word[len(self.val) + idx]
-        nextNode = self.children.get(next_letter)
-        if not nextNode:
-            return False
-        return nextNode.prefixSearch(word, len(self.val) + idx + 1)
+        nextLetter = word[len(self.val) + idx]
+        if nextNode := self.children.get(nextLetter):
+            return nextNode.prefixSearch(word, idx + len(self.val) + 1)
+        return False
     
     def insert(self, word, idx):
         if idx == len(word):
             if not self.val:
                 self.is_word = True
             else:
-                changed_prev_node = Node()
-                changed_prev_node.children = self.children
-                changed_prev_node.is_word = self.is_word
-                changed_prev_node.val = self.val[1:]
+                changedPrevNode = Node()
+                changedPrevNode.children = self.children
+                changedPrevNode.is_word = self.is_word
+                changedPrevNode.val = self.val[1:]
 
-                self.children = {self.val[0]: changed_prev_node}
+                self.children = {self.val[0]: changedPrevNode}
                 self.val = ""
                 self.is_word = True
                 
@@ -63,11 +61,11 @@ class Node:
         
         elif self.val[0] != word[idx]:
             new_val_here = ""
-            changed_prev_node = Node()
-            changed_prev_node.children = self.children
-            changed_prev_node.is_word = self.is_word
-            changed_prev_node.val = self.val[1:]
-            self.children = {self.val[0]: changed_prev_node}
+            changedPrevNode = Node()
+            changedPrevNode.children = self.children
+            changedPrevNode.is_word = self.is_word
+            changedPrevNode.val = self.val[1:]
+            self.children = {self.val[0]: changedPrevNode}
             self.val = ""
             self.is_word = False
             nextNode = Node()
@@ -86,11 +84,11 @@ class Node:
                 self.is_word = True
             
             elif share_up_to + idx == len(word):
-                changed_prev_node = Node()
-                changed_prev_node.children = self.children
-                changed_prev_node.is_word = self.is_word
-                changed_prev_node.val = self.val[share_up_to + 1:]
-                self.children = {self.val[share_up_to]: changed_prev_node}
+                changedPrevNode = Node()
+                changedPrevNode.children = self.children
+                changedPrevNode.is_word = self.is_word
+                changedPrevNode.val = self.val[share_up_to + 1:]
+                self.children = {self.val[share_up_to]: changedPrevNode}
                 self.val = word[idx: ]
                 self.is_word = True  
             
@@ -104,11 +102,11 @@ class Node:
                 nextNode.val = word[idx + share_up_to + 1:]
             
             else:
-                changed_prev_node = Node()
-                changed_prev_node.children = self.children
-                changed_prev_node.is_word = self.is_word
-                changed_prev_node.val = self.val[share_up_to + 1:]
-                self.children = {self.val[share_up_to]: changed_prev_node}
+                changedPrevNode = Node()
+                changedPrevNode.children = self.children
+                changedPrevNode.is_word = self.is_word
+                changedPrevNode.val = self.val[share_up_to + 1:]
+                self.children = {self.val[share_up_to]: changedPrevNode}
                 self.val = new_val_here
                 self.is_word = False
 
@@ -153,9 +151,3 @@ class Trie:
         if child:= self.root.children.get(prefix[0]):
             return child.prefixSearch(prefix, 1)
         return False
-
-# Your Trie object will be instantiated and called as such:
-# obj = Trie()
-# obj.insert(word)
-# param_2 = obj.search(word)
-# param_3 = obj.startsWith(prefix)
