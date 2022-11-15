@@ -10,9 +10,7 @@ class Node:
         
         for i, char in enumerate(self.val):
             wordIdx = idx + i
-            if wordIdx == len(word):
-                return False
-            if word[wordIdx] != char:
+            if wordIdx == len(word) or word[wordIdx] != char:
                 return False
             if wordIdx == len(word) - 1 and i == len(self.val) - 1:
                 return self.is_word
@@ -60,7 +58,6 @@ class Node:
             nextNode.val = word[idx + 1:]   
         
         elif self.val[0] != word[idx]:
-            # new_val_here = ""
             changedPrevNode = Node()
             changedPrevNode.children = self.children
             changedPrevNode.is_word = self.is_word
