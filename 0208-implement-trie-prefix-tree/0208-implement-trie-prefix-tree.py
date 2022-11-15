@@ -85,7 +85,7 @@ class Node:
                 if len(word) == sharedUpTo + idx or len(self.val) == sharedUpTo:
                     break
             # Shared prefix of word[idx:] and the value at this node
-            newVal = word[idx: idx + sharedUpTo]
+            sharedVal = word[idx: idx + sharedUpTo]
             if sharedUpTo + idx == len(word) and sharedUpTo == len(self.val):
                 self.isWord = True
             
@@ -96,7 +96,7 @@ class Node:
                 changedPrevNode.isWord = self.isWord
                 changedPrevNode.val = self.val[sharedUpTo + 1:]
                 self.children = {self.val[sharedUpTo]: changedPrevNode}
-                self.val = word[idx: ]
+                self.val = sharedVal
                 self.isWord = True  
             
             elif sharedUpTo == len(self.val):
@@ -114,7 +114,7 @@ class Node:
                 changedPrevNode.isWord = self.isWord
                 changedPrevNode.val = self.val[sharedUpTo + 1:]
                 self.children = {self.val[sharedUpTo]: changedPrevNode}
-                self.val = newVal
+                self.val = sharedVal
                 self.isWord = False
                 nextNode = Node()
                 nextNode.val = word[idx + sharedUpTo + 1:]
