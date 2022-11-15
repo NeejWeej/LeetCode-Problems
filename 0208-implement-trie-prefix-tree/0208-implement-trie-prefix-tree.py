@@ -5,21 +5,31 @@ class Node:
         self.isWord = False
     
     def search(self, word, idx):
+        """
+        Searchs for word in current node and its children
+        starting from the given index
+        """
         if not self.val and idx == len(word):
             return self.isWord
-        
+        # iterate through value at node, return False
+        # if discrepancy is found
         for i, char in enumerate(self.val):
             wordIdx = idx + i
             if wordIdx == len(word) or word[wordIdx] != char:
                 return False
         if len(self.val) + idx == len(word):
             return self.isWord
+        # if more of word left, check appropriate child node
         nextLetter = word[len(self.val) + idx]
         if nextNode:= self.children.get(nextLetter):
             return nextNode.search(word, idx + len(self.val) + 1)
         return False
 
     def prefixSearch(self, word, idx):
+        """
+        Similar to regular search but we only care if we have a path
+        in the tree that includes all of the word from the given index
+        """
         if len(word) == idx:
             return True
         for i, char in enumerate(self.val):
@@ -36,9 +46,18 @@ class Node:
         return False
     
     def insert(self, word, idx):
+        """
+        Inserts a new word into the node and its children. To maintain
+        the space-optimized structure, some rearranging might be neccessary.
+        The problem is broken up into cases.
+        """
+        # Case 1: We are at the end of the word
         if idx == len(word):
             if not self.val:
                 self.isWord = True
+            
+            # If there is a value at this node, we have to split
+            # the node into 2
             else:
                 changedPrevNode = Node()
                 changedPrevNode.children = self.children
@@ -115,9 +134,6 @@ class Node:
                 
 class Trie:     
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
         self.root = Node()
         
 
