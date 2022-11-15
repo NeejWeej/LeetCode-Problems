@@ -49,7 +49,9 @@ class Node:
     def splitNode(self, splitIdx):
         """
         Splits the current node at a given index
-        of its value
+        of its value, making the part of the value 
+        before the splitIdx serve as the value for 
+        a newly created parent node
         """
         changedPrevNode = Node()
         changedPrevNode.children = self.children
@@ -69,17 +71,10 @@ class Node:
             if not self.val:
                 self.isWord = True
             # If there is a value at this node, we have to split
-            # the node into 2
+            # the node
             else:
                 self.splitNode(0)
                 self.isWord = True
-                # changedPrevNode = Node()
-                # changedPrevNode.children = self.children
-                # changedPrevNode.isWord = self.isWord
-                # changedPrevNode.val = self.val[1:]
-                # self.children = {self.val[0]: changedPrevNode}
-                # self.val = ""
-                # self.isWord = True
         
         # Case 2: Not at the end of the word, but there is no value at this node
         elif not self.val:
@@ -99,7 +94,7 @@ class Node:
                 if len(word) == sharedUpTo + idx or len(self.val) == sharedUpTo:
                     break
             # Shared prefix of word[idx:] and the value at this node
-            sharedVal = word[idx: idx + sharedUpTo]
+            # sharedVal = word[idx: idx + sharedUpTo]
             if sharedUpTo + idx == len(word) and sharedUpTo == len(self.val):
                 self.isWord = True
             
@@ -107,13 +102,6 @@ class Node:
             elif sharedUpTo + idx == len(word):
                 self.splitNode(sharedUpTo)
                 self.isWord = True
-                # changedPrevNode = Node()
-                # changedPrevNode.children = self.children
-                # changedPrevNode.isWord = self.isWord
-                # changedPrevNode.val = self.val[sharedUpTo + 1:]
-                # self.children = {self.val[sharedUpTo]: changedPrevNode}
-                # self.val = sharedVal
-                # self.isWord = True  
             
             elif sharedUpTo == len(self.val):
                 nextLetter = word[idx + sharedUpTo]
@@ -128,13 +116,6 @@ class Node:
                 self.splitNode(sharedUpTo)
                 self.isWord = False
                 nextLetter = word[idx + sharedUpTo]
-                # changedPrevNode = Node()
-                # changedPrevNode.children = self.children
-                # changedPrevNode.isWord = self.isWord
-                # changedPrevNode.val = self.val[sharedUpTo + 1:]
-                # self.children = {self.val[sharedUpTo]: changedPrevNode}
-                # self.val = sharedVal
-                # self.isWord = False
                 nextNode = Node()
                 nextNode.val = word[idx + sharedUpTo + 1:]
                 nextNode.isWord = True
