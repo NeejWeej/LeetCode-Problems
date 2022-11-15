@@ -39,21 +39,38 @@ class Node:
 #         nextt = self.children.get(next_letter)
 #         return nextt.search(word[len(self.val) + 1:])
 
-    def prefixSearch(self, word):
-        if len(word) == 0:
+    def prefixSearch(self, word, idx):
+        if len(word) == idx:
             return True
-        for idx, char in enumerate(self.val):
-            if idx == len(word):
+        for i, char in enumerate(self.val):
+            wordIdx = idx + i
+            if wordIdx == len(word):
                 return True
-            if word[idx] != char:
+            if word[wordIdx] != char:
                 return False
-            if idx == len(word) - 1 and idx == len(self.val) - 1:
+            if wordIdx == len(word) - 1 and i == len(self.val) - 1:
                 return True
-        next_letter = word[len(self.val)]
-        if next_letter not in self.children:
+        next_letter = word[len(self.val) + idx]
+        nextNode = self.children.get(next_letter)
+        if not nextNode:
             return False
-        nextt = self.children.get(next_letter)
-        return nextt.prefixSearch(word[len(self.val) + 1:])
+        return nextNode.prefixSearch(word, len(self.val) + idx + 1)
+            
+    # def prefixSearch(self, word):
+    #     if len(word) == 0:
+    #         return True
+    #     for idx, char in enumerate(self.val):
+    #         if idx == len(word):
+    #             return True
+    #         if word[idx] != char:
+    #             return False
+    #         if idx == len(word) - 1 and idx == len(self.val) - 1:
+    #             return True
+    #     next_letter = word[len(self.val)]
+    #     if next_letter not in self.children:
+    #         return False
+    #     nextt = self.children.get(next_letter)
+    #     return nextt.prefixSearch(word[len(self.val) + 1:])
     
     def insert(self, word, idx):
         if idx == len(word):
@@ -263,7 +280,7 @@ class Trie:
         if word[0] not in self.root.children:
             return False
         nextt = self.root.children.get(word[0])
-        return nextt.prefixSearch(word[1:])
+        return nextt.prefixSearch(word, 1)
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
