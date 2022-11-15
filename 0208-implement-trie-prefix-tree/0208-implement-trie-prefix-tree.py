@@ -49,9 +49,13 @@ class Node:
     def splitNode(self, splitIdx):
         """
         Splits the current node at a given index
-        of its value, making the part of the value 
-        before the splitIdx serve as the value for 
-        a newly created parent node
+        of its value, in-place. The current node spawns
+        a child node that will inherit its children and
+        "isWord" status, as well as all of the value 
+        after the splitIdx. The current node's value becomes
+        the original value before the splitIdx, it only has
+        one child, which is the newly created child node, and
+        its "isWord" status is set to the default of False
         """
         changedPrevNode = Node()
         changedPrevNode.children = self.children
@@ -59,6 +63,7 @@ class Node:
         changedPrevNode.val = self.val[splitIdx + 1:]
         self.children = {self.val[splitIdx]: changedPrevNode}
         self.val = self.val[:splitIdx]
+        self.isWord = False
         
     def insert(self, word, idx):
         """
@@ -93,12 +98,12 @@ class Node:
                 sharedUpTo += 1
                 if len(word) == sharedUpTo + idx or len(self.val) == sharedUpTo:
                     break
-            # Shared prefix of word[idx:] and the value at this node
-            # sharedVal = word[idx: idx + sharedUpTo]
+                    
             if sharedUpTo + idx == len(word) and sharedUpTo == len(self.val):
                 self.isWord = True
             
-            # We have finished all of the word,
+            # We have finished all of the word, split
+            # so that the parent
             elif sharedUpTo + idx == len(word):
                 self.splitNode(sharedUpTo)
                 self.isWord = True
