@@ -57,7 +57,6 @@ class Node:
         changedPrevNode.val = self.val[splitIdx + 1:]
         self.children = {self.val[splitIdx]: changedPrevNode}
         self.val = self.val[:splitIdx]
-        self.isWord = True
         
     def insert(self, word, idx):
         """
@@ -73,6 +72,7 @@ class Node:
             # the node into 2
             else:
                 self.splitNode(0)
+                self.isWord = True
                 # changedPrevNode = Node()
                 # changedPrevNode.children = self.children
                 # changedPrevNode.isWord = self.isWord
@@ -106,6 +106,7 @@ class Node:
             # We have finished all of the word,
             elif sharedUpTo + idx == len(word):
                 self.splitNode(sharedUpTo)
+                self.isWord = True
                 # changedPrevNode = Node()
                 # changedPrevNode.children = self.children
                 # changedPrevNode.isWord = self.isWord
@@ -124,14 +125,16 @@ class Node:
                 nextNode.val = word[idx + sharedUpTo + 1:]
             
             else:
-                nextLetter = word[idx + sharedUpTo]
-                changedPrevNode = Node()
-                changedPrevNode.children = self.children
-                changedPrevNode.isWord = self.isWord
-                changedPrevNode.val = self.val[sharedUpTo + 1:]
-                self.children = {self.val[sharedUpTo]: changedPrevNode}
-                self.val = sharedVal
+                self.splitNode(sharedUpTo)
                 self.isWord = False
+                nextLetter = word[idx + sharedUpTo]
+                # changedPrevNode = Node()
+                # changedPrevNode.children = self.children
+                # changedPrevNode.isWord = self.isWord
+                # changedPrevNode.val = self.val[sharedUpTo + 1:]
+                # self.children = {self.val[sharedUpTo]: changedPrevNode}
+                # self.val = sharedVal
+                # self.isWord = False
                 nextNode = Node()
                 nextNode.val = word[idx + sharedUpTo + 1:]
                 nextNode.isWord = True
