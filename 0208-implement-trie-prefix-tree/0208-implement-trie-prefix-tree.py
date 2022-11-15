@@ -54,12 +54,8 @@ class Node:
                 self.is_word = True
                 
         elif not self.val:
-            # child = self.children.get(word[idx])
             if child:= self.children.get(word[idx]): 
                 return child.insert(word, idx + 1)
-            # for child, node in self.children.items():
-            #     if child == word[idx]:
-            #         return node.insert(word, idx + 1)
             nextNode = Node()
             self.children[word[idx]] = nextNode
             nextNode.is_word = True
@@ -100,9 +96,11 @@ class Node:
             
             elif share_up_to == len(self.val):
                 next_letter = word[idx + share_up_to]
-                for child, node in self.children.items():
-                    if child == next_letter:
-                        return node.insert(word, idx + share_up_to + 1)
+                if child:= self.children.get(next_letter):
+                        return child.insert(word, idx + share_up_to + 1)
+                # for child, node in self.children.items():
+                #     if child == next_letter:
+                #         return node.insert(word, idx + share_up_to + 1)
                 nextNode = Node()
                 self.children[next_letter] = nextNode
                 nextNode.is_word = True
@@ -135,10 +133,12 @@ class Trie:
         """
         Inserts a word into the trie.
         """
-        for child, node in self.root.children.items():
-            if child == word[0]:
-                node.insert(word, 1)
-                return
+        if child:= self.root.children.get(word[0]):
+            return child.insert(word, 1)
+        # for child, node in self.root.children.items():
+        #     if child == word[0]:
+        #         node.insert(word, 1)
+        #         return
         nextNode = Node()
         self.root.children[word[0]] = nextNode
         nextNode.is_word = True
@@ -148,21 +148,27 @@ class Trie:
         """
         Returns if the word is in the trie.
         """
-        if word[0] not in self.root.children:
-            return False
-        nextNode = self.root.children.get(word[0])
-        return nextNode.search(word, 1)
+        if child:= self.root.children.get(word[0]):
+            return child.search(word, 1)
+        return False
+        # if word[0] not in self.root.children:
+        #     return False
+        # nextNode = self.root.children.get(word[0])
+        # return nextNode.search(word, 1)
         
 
     def startsWith(self, prefix: str) -> bool:
         """
         Returns if there is any word in the trie that starts with the given prefix.
         """
-        word = prefix
-        if word[0] not in self.root.children:
-            return False
-        nextt = self.root.children.get(word[0])
-        return nextt.prefixSearch(word, 1)
+        if child:= self.root.children.get(prefix[0]):
+            return child.prefixSearch(prefix, 1)
+        return False
+        # word = prefix
+        # if word[0] not in self.root.children:
+        #     return False
+        # nextt = self.root.children.get(word[0])
+        # return nextt.prefixSearch(word, 1)
 
 # Your Trie object will be instantiated and called as such:
 # obj = Trie()
