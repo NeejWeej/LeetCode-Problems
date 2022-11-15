@@ -25,7 +25,7 @@ class Node:
             return nextNode.search(word, idx + len(self.val) + 1)
         return False
 
-    def prefixSearch(self, word, idx):
+    def prefixSearch(self, word: str, idx: int) -> bool:
         """
         Similar to regular search but we only care if we have a path
         in the tree that includes all of the word from the given index
@@ -48,7 +48,7 @@ class Node:
             return nextNode.prefixSearch(word, idx + len(self.val) + 1)
         return False
     
-    def splitNode(self, splitIdx, wordStatus):
+    def splitNode(self, splitIdx: int, wordStatus: bool) -> None:
         """
         Splits the current node at a given index
         of its value, in-place. The current node spawns
@@ -67,7 +67,7 @@ class Node:
         self.val = self.val[:splitIdx]
         self.isWord = wordStatus
         
-    def insert(self, word, idx):
+    def insert(self, word: str, idx: int) -> None:
         """
         Inserts a new word into the node and its children. To maintain
         the space-optimized structure, some rearranging might be neccessary.
