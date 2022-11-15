@@ -60,7 +60,7 @@ class Node:
             nextNode.val = word[idx + 1:]   
         
         elif self.val[0] != word[idx]:
-            new_val_here = ""
+            # new_val_here = ""
             changedPrevNode = Node()
             changedPrevNode.children = self.children
             changedPrevNode.is_word = self.is_word
