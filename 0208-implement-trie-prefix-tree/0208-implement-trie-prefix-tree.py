@@ -72,13 +72,14 @@ class Node:
             # If there is a value at this node, we have to split
             # the node into 2
             else:
-                changedPrevNode = Node()
-                changedPrevNode.children = self.children
-                changedPrevNode.isWord = self.isWord
-                changedPrevNode.val = self.val[1:]
-                self.children = {self.val[0]: changedPrevNode}
-                self.val = ""
-                self.isWord = True
+                self.splitNode(0)
+                # changedPrevNode = Node()
+                # changedPrevNode.children = self.children
+                # changedPrevNode.isWord = self.isWord
+                # changedPrevNode.val = self.val[1:]
+                # self.children = {self.val[0]: changedPrevNode}
+                # self.val = ""
+                # self.isWord = True
         
         # Case 2: Not at the end of the word, but there is no value at this node
         elif not self.val:
