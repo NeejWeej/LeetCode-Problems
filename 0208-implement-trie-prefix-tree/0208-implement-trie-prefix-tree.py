@@ -76,18 +76,18 @@ class Node:
             nextNode.isWord = True
             nextNode.val = word[idx + 1:]   
         
-        elif self.val[0] != word[idx]:
-            changedPrevNode = Node()
-            changedPrevNode.children = self.children
-            changedPrevNode.isWord = self.isWord
-            changedPrevNode.val = self.val[1:]
-            self.children = {self.val[0]: changedPrevNode}
-            self.val = ""
-            self.isWord = False
-            nextNode = Node()
-            nextNode.val = word[idx + 1:]
-            nextNode.isWord = True
-            self.children[word[idx]] = nextNode
+        # elif self.val[0] != word[idx]:
+        #     changedPrevNode = Node()
+        #     changedPrevNode.children = self.children
+        #     changedPrevNode.isWord = self.isWord
+        #     changedPrevNode.val = self.val[1:]
+        #     self.children = {self.val[0]: changedPrevNode}
+        #     self.val = ""
+        #     self.isWord = False
+        #     nextNode = Node()
+        #     nextNode.val = word[idx + 1:]
+        #     nextNode.isWord = True
+        #     self.children[word[idx]] = nextNode
         
         else:
             sharedUpTo = 0
