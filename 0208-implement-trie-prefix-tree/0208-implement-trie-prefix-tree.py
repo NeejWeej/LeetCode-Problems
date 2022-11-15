@@ -46,7 +46,7 @@ class Node:
             return nextNode.prefixSearch(word, idx + len(self.val) + 1)
         return False
     
-    def splitNode(self, splitIdx):
+    def splitNode(self, splitIdx, wordStatus):
         """
         Splits the current node at a given index
         of its value, in-place. The current node spawns
@@ -55,7 +55,7 @@ class Node:
         after the splitIdx. The current node's value becomes
         the original value before the splitIdx, it only has
         one child, which is the newly created child node, and
-        its "isWord" status is set to the default of False
+        its "isWord" status is set to wordStatus
         """
         changedPrevNode = Node()
         changedPrevNode.children = self.children
@@ -63,7 +63,7 @@ class Node:
         changedPrevNode.val = self.val[splitIdx + 1:]
         self.children = {self.val[splitIdx]: changedPrevNode}
         self.val = self.val[:splitIdx]
-        self.isWord = False
+        self.isWord = wordStatus
         
     def insert(self, word, idx):
         """
@@ -78,8 +78,7 @@ class Node:
             # If there is a value at this node, we have to split
             # the node
             else:
-                self.splitNode(0)
-                self.isWord = True
+                self.splitNode(0, True)
         
         # Case 2: Not at the end of the word, but there is no value at this node
         elif not self.val:
@@ -105,8 +104,7 @@ class Node:
             # We have finished all of the word, split
             # so that the parent
             elif sharedUpTo + idx == len(word):
-                self.splitNode(sharedUpTo)
-                self.isWord = True
+                self.splitNode(sharedUpTo, True)
             
             elif sharedUpTo == len(self.val):
                 nextLetter = word[idx + sharedUpTo]
@@ -118,8 +116,7 @@ class Node:
                 nextNode.val = word[idx + sharedUpTo + 1:]
             
             else:
-                self.splitNode(sharedUpTo)
-                self.isWord = False
+                self.splitNode(sharedUpTo, False)
                 nextLetter = word[idx + sharedUpTo]
                 nextNode = Node()
                 nextNode.val = word[idx + sharedUpTo + 1:]
