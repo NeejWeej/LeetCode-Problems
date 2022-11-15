@@ -4,22 +4,40 @@ class Node:
         self.val = ""
         self.is_word = False
     
-    def search(self, word):
-        if not self.val and len(word) == 0:
+    def search(self, word, idx):
+        if not self.val and idx == len(word):
             return self.is_word
         
-        for idx, char in enumerate(self.val):
-            if idx == len(word):
+        for i, char in enumerate(self.val):
+            wordIdx = idx + i
+            if wordIdx == len(word):
                 return False
-            if word[idx] != char:
+            if word[wordIdx] != char:
                 return False
-            if idx == len(word) - 1 and idx == len(self.val) - 1:
+            if wordIdx == len(word) - 1 and i == len(self.val) - 1:
                 return self.is_word
-        next_letter = word[len(self.val)]
-        if next_letter not in self.children:
+        nextLetter = word[len(self.val) + idx]
+        nextNode = self.children.get(nextLetter)
+        if not nextNode:
             return False
-        nextt = self.children.get(next_letter)
-        return nextt.search(word[len(self.val) + 1:])
+        return nextNode.search(word, idx + len(self.val) + 1)
+            
+#     def search(self, word):
+#         if not self.val and len(word) == 0:
+#             return self.is_word
+        
+#         for idx, char in enumerate(self.val):
+#             if idx == len(word):
+#                 return False
+#             if word[idx] != char:
+#                 return False
+#             if idx == len(word) - 1 and idx == len(self.val) - 1:
+#                 return self.is_word
+#         next_letter = word[len(self.val)]
+#         if next_letter not in self.children:
+#             return False
+#         nextt = self.children.get(next_letter)
+#         return nextt.search(word[len(self.val) + 1:])
 
     def prefixSearch(self, word):
         if len(word) == 0:
@@ -37,8 +55,8 @@ class Node:
         nextt = self.children.get(next_letter)
         return nextt.prefixSearch(word[len(self.val) + 1:])
     
-    def insert(self, word):
-        if len(word) == 0:
+    def insert(self, word, idx):
+        if idx == len(word):
             if not self.val:
                 self.is_word = True
             else:
@@ -46,69 +64,64 @@ class Node:
                 changed_prev_node.children = self.children
                 changed_prev_node.is_word = self.is_word
                 changed_prev_node.val = self.val[1:]
-                
+
                 self.children = {self.val[0]: changed_prev_node}
                 self.val = ""
                 self.is_word = True
                 
         elif not self.val:
             for child, node in self.children.items():
-                if child == word[0]:
-                    node.insert(word[1:])
-                    return
-            nextt = Node()
-            self.children[word[0]] = nextt
-            nextt.is_word = True
-            nextt.val = word[1:]
+                if child == word[idx]:
+                    return node.insert(word, idx + 1)
+            nextNode = Node()
+            self.children[word[idx]] = nextNode
+            nextNode.is_word = True
+            nextNode.val = word[idx + 1:]   
         
-        elif self.val[0] != word[0]:
+        elif self.val[0] != word[idx]:
             new_val_here = ""
-            
             changed_prev_node = Node()
             changed_prev_node.children = self.children
             changed_prev_node.is_word = self.is_word
             changed_prev_node.val = self.val[1:]
-            
             self.children = {self.val[0]: changed_prev_node}
             self.val = ""
             self.is_word = False
-            
-            nextt = Node()
-            nextt.val = word[1:]
-            nextt.is_word = True
-            self.children[word[0]] = nextt
-            
+            nextNode = Node()
+            nextNode.val = word[idx + 1:]
+            nextNode.is_word = True
+            self.children[word[idx]] = nextNode
+        
         else:
             share_up_to = 0
-            while word[share_up_to] == self.val[share_up_to]:
+            while word[idx + share_up_to] == self.val[share_up_to]:
                 share_up_to += 1
-                if len(word) == share_up_to or len(self.val) == share_up_to:
+                if len(word) == share_up_to + idx or len(self.val) == share_up_to:
                     break
-            
-            new_val_here = word[:share_up_to]
-            if share_up_to == len(word) and share_up_to == len(self.val):
+            new_val_here = word[idx: idx + share_up_to]
+            if share_up_to + idx == len(word) and share_up_to == len(self.val):
                 self.is_word = True
             
-            elif share_up_to == len(word):
+            elif share_up_to + idx == len(word):
                 changed_prev_node = Node()
                 changed_prev_node.children = self.children
                 changed_prev_node.is_word = self.is_word
                 changed_prev_node.val = self.val[share_up_to + 1:]
                 self.children = {self.val[share_up_to]: changed_prev_node}
-                self.val = word
-                self.is_word = True
+                self.val = word[idx: ]
+                self.is_word = True  
             
             elif share_up_to == len(self.val):
-                next_letter = word[share_up_to]
+                next_letter = word[idx + share_up_to]
                 for child, node in self.children.items():
                     if child == next_letter:
-                        node.insert(word[share_up_to + 1:])
+                        node.insert(word, idx + share_up_to + 1)
                         return
-                nextt = Node()
-                self.children[next_letter] = nextt
-                nextt.is_word = True
-                nextt.val = word[share_up_to + 1:]
-                
+                nextNode = Node()
+                self.children[next_letter] = nextNode
+                nextNode.is_word = True
+                nextNode.val = word[idx + share_up_to + 1:]
+            
             else:
                 changed_prev_node = Node()
                 changed_prev_node.children = self.children
@@ -118,20 +131,105 @@ class Node:
                 self.val = new_val_here
                 self.is_word = False
 
-                nextt = Node()
-                nextt.val = word[share_up_to + 1:]
-                nextt.is_word = True
-                self.children[word[share_up_to]] = nextt                
+                nextNode = Node()
+                nextNode.val = word[idx + share_up_to + 1:]
+                nextNode.is_word = True
+                self.children[word[idx + share_up_to]] = nextNode
+        
+#     def insert(self, word):
+#         if len(word) == 0:
+#             if not self.val:
+#                 self.is_word = True
+#             else:
+#                 changed_prev_node = Node()
+#                 changed_prev_node.children = self.children
+#                 changed_prev_node.is_word = self.is_word
+#                 changed_prev_node.val = self.val[1:]
+                
+#                 self.children = {self.val[0]: changed_prev_node}
+#                 self.val = ""
+#                 self.is_word = True
+                
+#         elif not self.val:
+#             for child, node in self.children.items():
+#                 if child == word[0]:
+#                     node.insert(word[1:])
+#                     return
+#             nextt = Node()
+#             self.children[word[0]] = nextt
+#             nextt.is_word = True
+#             nextt.val = word[1:]
+        
+#         elif self.val[0] != word[0]:
+#             new_val_here = ""
             
+#             changed_prev_node = Node()
+#             changed_prev_node.children = self.children
+#             changed_prev_node.is_word = self.is_word
+#             changed_prev_node.val = self.val[1:]
             
-    
+#             self.children = {self.val[0]: changed_prev_node}
+#             self.val = ""
+#             self.is_word = False
+            
+#             nextt = Node()
+#             nextt.val = word[1:]
+#             nextt.is_word = True
+#             self.children[word[0]] = nextt
+            
+#         else:
+#             share_up_to = 0
+#             while word[share_up_to] == self.val[share_up_to]:
+#                 share_up_to += 1
+#                 if len(word) == share_up_to or len(self.val) == share_up_to:
+#                     break
+            
+#             new_val_here = word[:share_up_to]
+#             if share_up_to == len(word) and share_up_to == len(self.val):
+#                 self.is_word = True
+            
+#             elif share_up_to == len(word):
+#                 changed_prev_node = Node()
+#                 changed_prev_node.children = self.children
+#                 changed_prev_node.is_word = self.is_word
+#                 changed_prev_node.val = self.val[share_up_to + 1:]
+#                 self.children = {self.val[share_up_to]: changed_prev_node}
+#                 self.val = word
+#                 self.is_word = True
+            
+#             elif share_up_to == len(self.val):
+#                 next_letter = word[share_up_to]
+#                 for child, node in self.children.items():
+#                     if child == next_letter:
+#                         node.insert(word[share_up_to + 1:])
+#                         return
+#                 nextt = Node()
+#                 self.children[next_letter] = nextt
+#                 nextt.is_word = True
+#                 nextt.val = word[share_up_to + 1:]
+                
+#             else:
+#                 changed_prev_node = Node()
+#                 changed_prev_node.children = self.children
+#                 changed_prev_node.is_word = self.is_word
+#                 changed_prev_node.val = self.val[share_up_to + 1:]
+#                 self.children = {self.val[share_up_to]: changed_prev_node}
+#                 self.val = new_val_here
+#                 self.is_word = False
 
+#                 nextt = Node()
+#                 nextt.val = word[share_up_to + 1:]
+#                 nextt.is_word = True
+#                 self.children[word[share_up_to]] = nextt                
+            
+                
 class Trie:     
     def __init__(self):
         """
         Initialize your data structure here.
         """
         self.root = Node()
+        
 
     def insert(self, word: str) -> None:
         """
@@ -139,7 +237,7 @@ class Trie:
         """
         for child, node in self.root.children.items():
             if child == word[0]:
-                node.insert(word[1:])
+                node.insert(word, 1)
                 return
         nextt = Node()
         self.root.children[word[0]] = nextt
@@ -153,8 +251,8 @@ class Trie:
         """
         if word[0] not in self.root.children:
             return False
-        nextt = self.root.children.get(word[0])
-        return nextt.search(word[1:])
+        nextNode = self.root.children.get(word[0])
+        return nextNode.search(word, 1)
         
 
     def startsWith(self, prefix: str) -> bool:
