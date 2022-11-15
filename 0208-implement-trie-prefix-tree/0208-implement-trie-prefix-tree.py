@@ -11,8 +11,8 @@ class Node:
         """
         if not self.val and idx == len(word):
             return self.isWord
-        # iterate through value at node, return False
-        # if discrepancy is found
+        # iterate through value at node
+        # return False if discrepancy is found
         for i, char in enumerate(self.val):
             wordIdx = idx + i
             if wordIdx == len(word) or word[wordIdx] != char:
@@ -33,6 +33,7 @@ class Node:
         if len(word) == idx:
             return True
         # iterate through value at node
+        # return False if discrepancy is found
         for i, char in enumerate(self.val):
             wordIdx = idx + i
             if wordIdx == len(word):
@@ -41,8 +42,9 @@ class Node:
                 return False
         if len(self.val) + idx == len(word):
             return True
+        # if more of word left, check appropriate child node
         nextLetter = word[len(self.val) + idx]
-        if nextNode := self.children.get(nextLetter):
+        if nextNode:= self.children.get(nextLetter):
             return nextNode.prefixSearch(word, idx + len(self.val) + 1)
         return False
     
@@ -101,11 +103,13 @@ class Node:
             if sharedUpTo + idx == len(word) and sharedUpTo == len(self.val):
                 self.isWord = True
             
-            # We have finished all of the word, split
-            # so that the parent
+            # We have finished all of the word
+            # we split the node
             elif sharedUpTo + idx == len(word):
                 self.splitNode(sharedUpTo, True)
             
+            # We have not finished the word, so we have
+            # to look towards the children
             elif sharedUpTo == len(self.val):
                 nextLetter = word[idx + sharedUpTo]
                 if child:= self.children.get(nextLetter):
@@ -115,6 +119,10 @@ class Node:
                 nextNode.isWord = True
                 nextNode.val = word[idx + sharedUpTo + 1:]
             
+            # we have finished neither the word nor the
+            # value, so we must split and create a new child
+            # node that stores the rest of the word past
+            # the shared portion
             else:
                 self.splitNode(sharedUpTo, False)
                 nextLetter = word[idx + sharedUpTo]
@@ -128,7 +136,6 @@ class Trie:
     def __init__(self):
         self.root = Node()
         
-
     def insert(self, word: str) -> None:
         """
         Inserts a word into the trie.
@@ -148,7 +155,6 @@ class Trie:
             return child.search(word, 1)
         return False
         
-
     def startsWith(self, prefix: str) -> bool:
         """
         Returns if there is any word in the trie that starts with the given prefix.
