@@ -12,8 +12,10 @@ class Node:
             wordIdx = idx + i
             if wordIdx == len(word) or word[wordIdx] != char:
                 return False
-            if wordIdx == len(word) - 1 and i == len(self.val) - 1:
-                return self.is_word
+            # if wordIdx == len(word) - 1 and i == len(self.val) - 1:
+            #     return self.is_word
+        if len(self.val) + idx == len(word):
+            return self.is_word
         nextLetter = word[len(self.val) + idx]
         if nextNode:= self.children.get(nextLetter):
             return nextNode.search(word, idx + len(self.val) + 1)
@@ -28,8 +30,6 @@ class Node:
                 return True
             if word[wordIdx] != char:
                 return False
-            # if wordIdx == len(word) - 1 and i == len(self.val) - 1:
-            #     return True
         if len(self.val) + idx == len(word):
             return True
         nextLetter = word[len(self.val) + idx]
