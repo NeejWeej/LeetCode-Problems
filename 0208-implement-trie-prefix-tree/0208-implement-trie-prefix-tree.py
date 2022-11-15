@@ -32,6 +32,7 @@ class Node:
         """
         if len(word) == idx:
             return True
+        # iterate through value at node
         for i, char in enumerate(self.val):
             wordIdx = idx + i
             if wordIdx == len(word):
@@ -55,7 +56,6 @@ class Node:
         if idx == len(word):
             if not self.val:
                 self.isWord = True
-            
             # If there is a value at this node, we have to split
             # the node into 2
             else:
@@ -63,11 +63,11 @@ class Node:
                 changedPrevNode.children = self.children
                 changedPrevNode.isWord = self.isWord
                 changedPrevNode.val = self.val[1:]
-
                 self.children = {self.val[0]: changedPrevNode}
                 self.val = ""
                 self.isWord = True
-                
+        
+        # Case 2: Not at the end of the word, but there is no value at this node
         elif not self.val:
             if child:= self.children.get(word[idx]): 
                 return child.insert(word, idx + 1)
@@ -76,29 +76,20 @@ class Node:
             nextNode.isWord = True
             nextNode.val = word[idx + 1:]   
         
-        # elif self.val[0] != word[idx]:
-        #     changedPrevNode = Node()
-        #     changedPrevNode.children = self.children
-        #     changedPrevNode.isWord = self.isWord
-        #     changedPrevNode.val = self.val[1:]
-        #     self.children = {self.val[0]: changedPrevNode}
-        #     self.val = ""
-        #     self.isWord = False
-        #     nextNode = Node()
-        #     nextNode.val = word[idx + 1:]
-        #     nextNode.isWord = True
-        #     self.children[word[idx]] = nextNode
-        
+        # Case 3: We have a value and a word, we see up to which point
+        # they align
         else:
             sharedUpTo = 0
             while word[idx + sharedUpTo] == self.val[sharedUpTo]:
                 sharedUpTo += 1
                 if len(word) == sharedUpTo + idx or len(self.val) == sharedUpTo:
                     break
+            # Shared prefix of word[idx:] and the value at this node
             newVal = word[idx: idx + sharedUpTo]
             if sharedUpTo + idx == len(word) and sharedUpTo == len(self.val):
                 self.isWord = True
             
+            # We have finished all of the word,
             elif sharedUpTo + idx == len(word):
                 changedPrevNode = Node()
                 changedPrevNode.children = self.children
@@ -125,7 +116,6 @@ class Node:
                 self.children = {self.val[sharedUpTo]: changedPrevNode}
                 self.val = newVal
                 self.isWord = False
-
                 nextNode = Node()
                 nextNode.val = word[idx + sharedUpTo + 1:]
                 nextNode.isWord = True
