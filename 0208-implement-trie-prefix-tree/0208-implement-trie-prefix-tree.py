@@ -105,13 +105,14 @@ class Node:
             
             # We have finished all of the word,
             elif sharedUpTo + idx == len(word):
-                changedPrevNode = Node()
-                changedPrevNode.children = self.children
-                changedPrevNode.isWord = self.isWord
-                changedPrevNode.val = self.val[sharedUpTo + 1:]
-                self.children = {self.val[sharedUpTo]: changedPrevNode}
-                self.val = sharedVal
-                self.isWord = True  
+                self.splitNode(sharedUpTo)
+                # changedPrevNode = Node()
+                # changedPrevNode.children = self.children
+                # changedPrevNode.isWord = self.isWord
+                # changedPrevNode.val = self.val[sharedUpTo + 1:]
+                # self.children = {self.val[sharedUpTo]: changedPrevNode}
+                # self.val = sharedVal
+                # self.isWord = True  
             
             elif sharedUpTo == len(self.val):
                 nextLetter = word[idx + sharedUpTo]
