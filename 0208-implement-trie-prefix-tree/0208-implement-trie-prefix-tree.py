@@ -46,6 +46,19 @@ class Node:
             return nextNode.prefixSearch(word, idx + len(self.val) + 1)
         return False
     
+    def splitNode(self, splitIdx):
+        """
+        Splits the current node at a given index
+        of its value
+        """
+        changedPrevNode = Node()
+        changedPrevNode.children = self.children
+        changedPrevNode.isWord = self.isWord
+        changedPrevNode.val = self.val[splitIdx + 1:]
+        self.children = {self.val[splitIdx]: changedPrevNode}
+        self.val = self.val[:splitIdx]
+        self.isWord = True
+        
     def insert(self, word, idx):
         """
         Inserts a new word into the node and its children. To maintain
@@ -109,6 +122,7 @@ class Node:
                 nextNode.val = word[idx + sharedUpTo + 1:]
             
             else:
+                nextLetter = word[idx + sharedUpTo]
                 changedPrevNode = Node()
                 changedPrevNode.children = self.children
                 changedPrevNode.isWord = self.isWord
@@ -119,7 +133,7 @@ class Node:
                 nextNode = Node()
                 nextNode.val = word[idx + sharedUpTo + 1:]
                 nextNode.isWord = True
-                self.children[word[idx + sharedUpTo]] = nextNode             
+                self.children[nextLetter] = nextNode             
             
                 
 class Trie:     
