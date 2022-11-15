@@ -1,10 +1,10 @@
 class Node:
     def __init__(self):
-        self.children = {}
-        self.val = ""
-        self.isWord = False
+        self.children: dict = {}
+        self.val: str = ""
+        self.isWord: bool = False
     
-    def search(self, word, idx):
+    def search(self, word: str, idx: int) -> bool:
         """
         Searchs for word in current node and its children
         starting from the given index
