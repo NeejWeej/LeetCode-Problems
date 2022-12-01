@@ -50,13 +50,9 @@ public:
         unordered_map<int,int> denom = fallingFact(r, r);
         int ans = 1;
         
-        for(const auto& [k,v]: denom){
-            num[k] -= v;
-        }
+        for(const auto& [k,v]: denom) num[k] -= v;
         
-        for(const auto& [k,v]: num){
-            ans *= pow(k, v);
-        }
+        for(const auto& [k,v]: num) ans *= pow(k, v);
         
         return ans;
     }
