@@ -31,9 +31,13 @@ public:
             int temp = val;
             for(const auto& p: primes){
                 if (temp < p) break;
-                while (temp % p == 0){
-                    ans[p]++;
-                    temp /= p;
+                while (true){
+                    auto dv = div(temp, p);
+                    if (dv.rem == 0){
+                        ans[p]++;
+                        temp = dv.quot;
+                    }
+                    else break;
                 }
             }
             val--;
